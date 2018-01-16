@@ -7,7 +7,12 @@ const int inf = (int)1e8;
 
 /*solution: simulation. This assumes if a solution exists, it will occur before
 time widthRiver^2. Store the positions of each boat at each time, and which boats
-Mario can get to at each time. O(W*W*n)
+Mario can get to at each time. 
+if one boat is at position 3 going to position 4, and another boat is at
+position 4 going to position 3, mario can go from the first boat to the second
+boat and vice-versa. Make sure to account for this.
+
+O(W*W*n)
 */
 
 
