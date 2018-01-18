@@ -62,7 +62,6 @@ int main()
     }
 
     cout << dfs_len() << endl;
-    dfs_len(-1);
   }
   return 0;
 }
