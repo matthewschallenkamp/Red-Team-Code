@@ -85,52 +85,110 @@ ld crossProduct(point A, point B, point C)
   return (AB.i * AC.j - AB.j * AC.i);
 }
 
-int findLeftEdge(vector<point>& pts, vector<point>& treasure, point origin, int startInd)
+pair<int, bool> findLeftEdge(vector<point>& pts, vector<point>& treasure, point origin, int startInd)
 {
   ////cerr << "Find left edge" << endl;
 
   int currInd = startInd;
+  int crosses;
   do
   {
+    if(pts[currInd] == origin) continue;
+    crosses = 0;
+
     //Check if any point of the treasure is to the left of the line
     for(point& p : treasure)
     {
-      ////cerr << origin << " -> " << pts[currInd % pts.size()] << " / " << p << " : " << crossProduct(pts[currInd % pts.size()], origin, p) << endl;
-      if(crossProduct(origin, pts[currInd % pts.size()], p) > 0)
+      ////cerr << origin << " -> " << pts[currInd] << " -> " << p << " = " << crossProduct(origin, pts[currInd], p) << endl;
+      if(crossProduct(origin, pts[currInd], p) > 0)
       {
-        //If so, move back one
-        return (currInd-1) % pts.size();
+        crosses++;
       }
     }     
-  }while((++currInd) % pts.size() != startInd);
+    if(crosses > 0) return make_pair(currInd, crosses!=4);
+  }while((currInd = ((currInd+1) % pts.size())) != startInd);
 
   throw logic_error("Unable to find left edge");
 }
 
 int findRightEdge(vector<point>& pts, vector<point>& treasure, point origin, int startInd)
 {
+  ////cerr << "Find right edge" << endl;
+
   int currInd = startInd;
   bool done;
-  ////cerr << "Find right edge" << endl;
   do
   {
+    if(pts[currInd] == origin) continue;
     done = true;
     
     //Check if all points of the treasure are to the left of the line
     for(point& p : treasure)
     {
-      ////cerr << origin << " -> " << pts[currInd % pts.size()] << " / " << p << " : " << crossProduct(pts[currInd % pts.size()], origin, p) << endl;
-      if(crossProduct(origin, pts[currInd % pts.size()], p) < 0)
+      ////cerr << origin << " -> " << pts[currInd] << " -> " << p << " = " << crossProduct(origin, pts[currInd], p) << endl;
+      if(crossProduct(origin, pts[currInd], p) < 0)
       {
         //If not, keep searching
         done = false;
         break;
       }
     }     
-    if(done) return currInd % pts.size();
-  }while((++currInd) % pts.size() != startInd);
+    //Find the last point that intersects
+    if(done) return currInd;
+  }while((currInd = ((currInd+1) % pts.size())) != startInd);
 
   throw logic_error("Unable to find right edge");
+}
+
+int union_size(vector<pair<int, int>>& ranges1, vector<pair<int, int>>& ranges2)
+{
+  if(!ranges1.size() && !ranges2.size()) return 0;
+
+  vector<int> starts;
+  vector<int> ends;
+  int startInd = 0, endInd = 0;
+
+  for(auto& p : ranges1)
+  {
+    starts.push_back(p.first);
+    ends.push_back(p.second);
+  }
+
+  for(auto& p : ranges2)
+  {
+    starts.push_back(p.first);
+    ends.push_back(p.second);
+  }
+
+  sort(starts.begin(), starts.end());
+  sort(ends.begin(), ends.end());
+
+  int sum = 1;
+  int level = 1;
+  int curr = starts[startInd++];
+  int last = curr;
+  while(curr != ends.back())
+  {
+    if(starts[startInd] <= ends[endInd])
+    {
+      if(level == 0)
+        sum++;
+      else
+        sum += starts[startInd] - curr;
+
+      level++;
+      curr = starts[startInd++];
+    }
+    else
+    {
+      sum += ends[endInd] - curr;
+
+      level--;
+      curr = ends[endInd++];
+    }
+  }
+
+  return sum;
 }
 
 void doCase()
@@ -170,379 +228,105 @@ void doCase()
   treasure.emplace_back(x, L-y-w);
   
   //Find range of points that cause intersections for point 0
-  int b_begin = findLeftEdge(pts, treasure, pts[0], 1);
-  int b_end = findRightEdge(pts, treasure, pts[0], b_begin+1);
+  pair<int, bool> b_begin = findLeftEdge(pts, treasure, pts[0], 1);
+  int b_end = findRightEdge(pts, treasure, pts[0], b_begin.first);
   
-  //Walk around the outside and find that range for each point
+  //Walk around the outside and find that range (inclusive on both sides) for each point
   //Use previous range to find new range in O(1) time amortized
-  vector<pair<int, int>> ranges(pts.size());
+  vector<vector<pair<int, int>>> ranges(pts.size());
   for(int i=0; i<pts.size(); i++)
   {      
-      if(i == b_begin % pts.size()) b_begin++;
+      if(i == b_begin.first % pts.size()) b_begin.first++;
 
       //Wasted test on first time, but should be harmless      
-      b_begin = findLeftEdge(pts, treasure, pts[i], b_begin);
+      b_begin = findLeftEdge(pts, treasure, pts[i], b_begin.first);
       b_end = findRightEdge(pts, treasure, pts[i], b_end);
 
-      if(i == b_end % pts.size()) b_end--;
+      //Currently begin, end is inclusive/exclusive
+      //it's a little easier to work with inclusive/inclusive
+      //but we have to make sure there is a range first
+      if(b_begin.second)
+      {
+        b_end = (b_end == 0 ? pts.size() - 1 : b_end - 1);
 
-      ranges[i] = make_pair(b_begin, b_end);
-      //cerr << "Range " << i << ": " << b_begin << " -> " << b_end << endl;
+        //Check if range looped around point 0, and if so
+        //split it into two ranges
+        //cerr << "Range " << i << ": " << b_begin.first << " -> " << b_end << endl;
+        if(b_end < b_begin.first)
+        {
+          //cerr << "Split " << b_begin.first << " -> " << pts.size()-1;
+          //cerr << " : " << 0 << " -> " << b_end << endl;
+          ranges[i].emplace_back(b_begin.first, pts.size()-1);
+          ranges[i].emplace_back(0, b_end);
+        }
+        else
+        {
+          ranges[i].emplace_back(b_begin.first, b_end);
+        }
+      }
+      else
+      {
+        //cerr << "Range " << i << ": None" << endl;
+      }
   }
 
-  //Counters for number of triangles that intersect
-  //the treasure 1, 2, or 3 times
-  ll naive_single = 0;
-  ll naive_double = 0;
-  ll naive_triple = 0;
+  //Total triangles found
+  ll triangles = 0;
 
   //Now check each point to see how many triangles it's part of with
-  //1 or 2 intersections on the box, and use the collected ranges
-  //to find how many it's part of with 3 intersections
+  //0 intersections on the box using the ranges of itself and the points
+  //it can safely connect to
   //O(n^2)
   for(int i=0; i<pts.size(); i++)
   {
-    pair<int, int>& range1 = ranges[i];
+    vector<pair<int, int>>& range1 = ranges[i];
 
-    ll intersectsR1 = range1.second - range1.first - 1;
-
-    bool range1Crossed = false;
-    if(range1.second < range1.first)
+    int checkStart = 0, checkEnd = 0;
+    bool noRange = true;
+    if(range1.size())
     {
-      intersectsR1 = (range1.second + pts.size()) - range1.first - 1;
-      range1Crossed = true;
+      checkStart = (range1.back().second + 1) % pts.size();
+      checkEnd = range1.front().first;
+      noRange = false;
     }
 
-    //Count each non-intersecting point as a vertex of a triangle
-    //with each point that does intersect
-    ll singles = 0;
-    ll doubles = 0;
-    ll triples = 0;
-
-    //If at least 2 points are in the are of intersections, count 
-    //How many trianges can use the origin and two points in the intersection area
-    if(intersectsR1 != 0)
+    //Check point i with each point outside it's intersection range
+    //and find points outside both intersection ranges to make a triangle
+    for(int j=checkStart; j != checkEnd || noRange; j = (j + 1) % pts.size())
     {
-      //For each intersect point, check how many of it's intersecting points
-      //fall in both ranges; those cause a triple intersection
-      for(int j=(range1.first + 1) % pts.size(); j != range1.second; j = (j + 1) % pts.size())
-      {
-        pair<int, int>& range2 = ranges[j]; 
-        
-        ll intersectsR2 = range2.second - range2.first - 1;
+      noRange = false;
+      if(j == i) continue;
 
-        bool range2Crossed = false;
-        if(range2.second < range2.first)
-        {
-          intersectsR2 = (range2.second + pts.size()) - range2.first - 1;
-          range2Crossed = true;
-        }
+      vector<pair<int, int>>& range2 = ranges[j]; 
 
-        //cerr << "Pts " << i << ", " << j << endl;
-        //cerr << intersectsR1 << ", " << intersectsR2 << endl;
+      //Find how many points are invalidated because they are in
+      //either range by comparing each part of the first
+      //range to each part of the second
+      int invalidPoints = 0;
 
-        //Find the number of points that are...
-        //  Not in range 1 or 2
-        //  In range 2 but not range 1
-        //  In both ranges 1 and 2
-        //
-        //The current point (in range 1) can be used with points in
-        //  the first category to make triangles that intersect 1 time
-        //
-        //It can be used with points in the second category to
-        //  make triangles that intersect 2 times
-        //
-        //It can be used with points in the third category to 
-        //  make trianges that intersect 3 times
-        //
-        //It is also known that range2.first >= range1.first and
-        //range2.second >= range2.second
-        ll inRange2;
-        ll outRange12;
-        ll inRange12;
+      invalidPoints += union_size(range1, range2);
+      
+      //cerr << "Pts " << i << ", " << j << endl;
+      //cerr << invalidPoints << " unsafe points" << endl;
+      
+      //Minus 2 so we don't count the points we're currently
+      //looking at
+      ll safeTriangles = tot_pts - invalidPoints - 2;
+      //cerr << safeTriangles << " safe triangles" << endl;
 
-        //Neither range crosses the 0th pt
-        //(easy case)
-        //cerr << "Case ";
-        if(!range1Crossed && !range2Crossed)
-        {
-          //cerr << "NN";
-          bool start2In1 = range2.first >= range1.first && range2.first < range1.second-1;
-          bool end2In1 = range2.second > range1.first + 1 && range2.second <= range1.second;
-          //Ranges don't intersect
-          if(range2.first >= range1.second - 1 || range2.second <= range1.first + 1)
-          {
-            //cerr << "0" << endl;
-            inRange2 = intersectsR2;
-            outRange12 = tot_pts - intersectsR2 - intersectsR1;
-            inRange12 = 0;
-          }
-          else
-          {
-            //Range2 within range1
-            if(start2In1 && end2In1)
-            {
-              //cerr << "1" << endl;
-              inRange2 = 0;
-              outRange12 = tot_pts - intersectsR1;
-              inRange12 = intersectsR2;
-            }
-            //Range2 overlaps right side of range1
-            else if(start2In1 && !end2In1)
-            {
-              //cerr << "2" << endl;
-              inRange2 = range2.second - range1.second;
-              outRange12 = tot_pts - (range2.second - range1.first - 1);
-              inRange12 = range1.second - range2.first - 1;
-            }
-            //Range2 overlaps left side of range1
-            else if(!start2In1 && end2In1)
-            {
-              //cerr << "3" << endl;
-              inRange2 = range1.first - range2.first;
-              outRange12 = tot_pts - (range1.second - range2.first - 1);
-              inRange12 = range2.second - range1.first - 1;
-            }
-            //Range1 within range2
-            else
-            {
-              //cerr << "4" << endl;
-              inRange2 = intersectsR2 - intersectsR1;
-              outRange12 = tot_pts - intersectsR2;
-              inRange12 = intersectsR1;
-            }
-          }
-
-          //Don't count point i
-          if(i > range2.first && i < range2.second) inRange2--;
-          else outRange12--;
-        }
-        else if(range1Crossed && !range2Crossed)
-        {
-          //cerr << "YN";
-          bool start2In1 = range2.first >= range1.first || range2.first < range1.second-1;
-          bool end2In1 = range2.second > range1.first + 1 || range2.second <= range1.second;
-
-          //Ranges don't intersect
-          if(range2.first >= range1.second - 1 && range2.second <= range1.first + 1)
-          {
-            //cerr << "0" << endl;
-            inRange2 = intersectsR2;
-            outRange12 = tot_pts - intersectsR2 - intersectsR1;
-            inRange12 = 0;
-          }
-          else
-          {
-            //Range2 within range1
-            //Or wraps all the way around
-            if(start2In1 && end2In1)
-            {
-              bool mobiusDoubleReacharound = range2.first < range1.second-1;
-              if(mobiusDoubleReacharound)
-              {
-                //cerr << "1y" << endl;
-                inRange2 = tot_pts - intersectsR1;
-                inRange12 = intersectsR2 - inRange2;
-                outRange12 = 0;
-              }
-              else
-              {
-                //cerr << "1n" << endl;
-                inRange2 = 0;
-                outRange12 = tot_pts - intersectsR1;
-                inRange12 = intersectsR2;
-              }
-            }
-            //Range2 overlaps right side of range1
-            else if(start2In1 && !end2In1)
-            {
-              //cerr << "2" << endl;
-              inRange2 = range2.second - range1.second;
-              outRange12 = tot_pts - (range2.second + pts.size() - range1.first - 1);
-              inRange12 = range1.second - range2.first - 1;
-            }
-            //Range2 overlaps left side of range1
-            else if(!start2In1 && end2In1)
-            {
-              //cerr << "3" << endl;
-              inRange2 = range1.first - range2.first;
-              outRange12 = tot_pts - (range1.second+pts.size() - range2.first - 1);
-              inRange12 = range2.second - range1.first - 1;
-            }
-            //Range1 within range2
-            else
-            {
-              throw logic_error("Impossible situation 1");
-            }
-          }
-
-          //Don't count point i
-          if(i > range2.first && i < range2.second) inRange2--;
-          else outRange12--;
-        }
-        else if(!range1Crossed && range2Crossed)
-        {
-          //cerr << "NY";
-          bool start2In1 = range2.first >= range1.first && range2.first < range1.second-1;
-          bool end2In1 = range2.second > range1.first + 1 && range2.second <= range1.second;
-
-          //Ranges don't intersect
-          if(range2.first >= range1.second - 1 && range2.second <= range1.first + 1)
-          {
-            //cerr << "0" << endl;
-            inRange2 = intersectsR2;
-            outRange12 = tot_pts - intersectsR2 - intersectsR1;
-            inRange12 = 0;
-          }
-          else
-          {
-            //Range2 within range1
-            //Or wraps all the way around
-            if(start2In1 && end2In1)
-            {
-              bool mobiusDoubleReacharound = range2.first < range1.second-1;
-              if(mobiusDoubleReacharound)
-              {
-                //cerr << "1y" << endl;
-                inRange2 = tot_pts - intersectsR1;
-                inRange12 = intersectsR2 - inRange2;
-                outRange12 = 0;
-              }
-              else
-              {
-                throw logic_error("Impossible situation 2");
-              }
-            }
-            //Range2 overlaps right side of range1
-            else if(start2In1 && !end2In1)
-            {
-              //cerr << "2" << endl;
-              inRange2 = range2.second+pts.size() - range1.second;
-              outRange12 = tot_pts - (range2.second + pts.size() - range1.first - 1);
-              inRange12 = range1.second - range2.first - 1;
-            }
-            //Range2 overlaps left side of range1
-            else if(!start2In1 && end2In1)
-            {
-              //cerr << "3" << endl;
-              inRange2 = range1.first+pts.size() - range2.first;
-              outRange12 = tot_pts - (range1.second+pts.size() - range2.first - 1);
-              inRange12 = range2.second - range1.first - 1;
-            }
-            //Range1 within range2
-            else
-            {
-              //cerr << "4" << endl;
-              inRange2 = intersectsR2 - intersectsR1;
-              outRange12 = tot_pts - intersectsR2;
-              inRange12 = intersectsR1;
-            }
-          }
-
-          //Don't count point i
-          if(i > range2.first || i < range2.second) inRange2--;
-          else outRange12--;
-        }
-        else if(range1Crossed && range2Crossed)
-        {
-          //cerr << "YY";
-          bool start2In1 = range2.first >= range1.first || range2.first < range1.second - 1;
-          bool end2In1 = range2.second <= range1.second || range2.second > range1.first + 1;
-
-          //Ranges don't intersect
-          if((range1.second == 0 && range2.first == pts.size()-1) ||
-            (range1.first == pts.size() - 1 && range2.second == 0))
-          {
-            inRange2 = intersectsR2;
-            inRange12 = 0;
-            outRange12 = tot_pts - intersectsR1 - intersectsR2;
-          }
-          else
-          {
-            //Range2 within range1
-            //Or wraps all the way around
-            if(start2In1 && end2In1)
-            {
-              bool mobiusDoubleReacharound = ((range2.first < range1.second) == (range2.second < range1.second));
-              if(mobiusDoubleReacharound)
-              {
-                //cerr << "1y" << endl;
-                inRange2 = tot_pts - intersectsR1;
-                inRange12 = intersectsR1 - (tot_pts - intersectsR2);
-                outRange12 = 0;
-              }
-              else
-              {
-                //cerr << "1n" << endl;
-                inRange2 = 0;
-                inRange12 = intersectsR2;
-                outRange12 = tot_pts - intersectsR1;
-              }
-            }
-            //Range2 overlaps right side of range1
-            else if(start2In1 && !end2In1)
-            {
-              //cerr << "2" << endl;
-              inRange2 = range2.second - range1.second;
-              outRange12 = tot_pts - (range2.second + pts.size() - range1.first - 1);
-              inRange12 = range1.second + pts.size() - range2.first - 1;
-            }
-            //Range2 overlaps left side of range1
-            else if(!start2In1 && end2In1)
-            {
-              //cerr << "2" << endl;
-              inRange2 = range1.first - range2.first;
-              outRange12 = tot_pts - (range1.second+pts.size() - range2.first - 1);
-              inRange12 = range2.second + pts.size() - range1.first - 1;
-            }
-            //Range1 within range2
-            else
-            {
-              //cerr << "3" << endl;
-              inRange2 = intersectsR2 - intersectsR1;
-              outRange12 = tot_pts - intersectsR2;
-              inRange12 = intersectsR1;
-            }
-          }
-
-          //Don't count point i
-          if(i > range2.first || i < range2.second) inRange2--;
-          else outRange12--;
-        }
-
-        //cerr << "In neither range: " << outRange12 << endl;
-        //cerr << "In only range 2: " << inRange2 << endl;
-        //cerr << "In both ranges: " << inRange12 << endl;
-
-        singles += outRange12;
-        doubles += inRange2;
-        triples += inRange12;
-      }
-
-      //cerr << "Pt " << i << endl;
-      //cerr << "Single intersectsR1: " << singles << endl;
-      //cerr << "Double intersectsR1: " << doubles << endl;
-      //cerr << "Triple intersectsR1: " << triples << endl;
+      triangles += safeTriangles;
     }
-    naive_single += singles;
-    naive_double += doubles;
-    naive_triple += triples;
   }
 
-  //Total possible triangles in the room
-  //Total triangles - all triangles that have 3 points on the same wall
-  ll naive_total = chooseNK(tot_pts, 3) - 2 * chooseNK(W + 1, 3) - 2 * chooseNK(L + 1, 3);
-  
-  if((naive_single % 2) || (naive_double % 2) || (naive_triple % 6))
-    throw logic_error("Answer not even");
+  triangles /= 6;
+  //Remove 'triangles' that have three points on the same wall
+  triangles -= 2*chooseNK(W+1, 3);
+  triangles -= 2*chooseNK(L+1, 3);
 
-  //cerr << naive_total << " total triangles" << endl;
-  //cerr << naive_single << " -> " << naive_single/2 << " single intersect triangles" << endl;
-  //cerr << naive_double << " -> " << naive_double/2 << " double intersect triangles" << endl;
-  //cerr << naive_triple << " -> " << naive_triple/6 << " triple intersect triangles" << endl;
-  //cerr << string(20, '-') << endl;
-
-  cout << naive_total - naive_single/2 - naive_double/2 - naive_triple/6 << endl;
+  //Every triangle is counted once for each
+  //side of each line; so 6 times
+  cout << triangles << endl;
+  //cerr << "---------------" << endl;
 }
 
 int main()
