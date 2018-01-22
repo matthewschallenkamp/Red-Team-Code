@@ -6,10 +6,10 @@ characters.
 
 Start with a string representing the answer with blank characters.
 
-If a suffix doesn't have an '*', then we can naively fill in these characters.
-If a suffix does have an '*', then it will break the string into 2 pieces: a
+If a suffix doesn't have an asterix, then we can naively fill in these characters.
+If a suffix does have an asterix, then it will break the string into 2 pieces: a
 beginning piece and an end piece. Both these pieces can have positive or zero
-length. We can fill in the end piece like we do suffixes without '*'. We can
+length. We can fill in the end piece like we do suffixes without asterix. We can
 fill in the characters for the beginning piece starting at the given index.
 
 If at any time, we are filling in a character, and a different character other
