@@ -8,10 +8,10 @@ Given an L x W rectangle (L, W positive integers) and some square within that re
 points at integer coordinates around the rectangle which won't intersect the square.
 
 ## Discussion
-The judges' slides from the 2015 BAPC where this problem was first introduced state that a brute-force algorithm will suffice. That is, the given algorithm is to try every group of 3 points and see if any of the three lines intersect the square.
+The judges' slides from the 2015 BAPC where this problem was first introduced state that a brute-force algorithm (test every possible triangle to see if it intersects the square) will suffice.
 
-Given that 1 < L, W < 201, and there are up to 31 test cases in a file, this is an inadequate solution. Program runtime must be O(n^2) or better.
-I was unable to find a O(n) solution, though the judges' slides hint that one exists. I did however find a way to reduce enough of the problem to counting that it should run in O(n^2) time.
+Given that 1 < L, W < 201, and there are up to 31 test cases in a file, this is an inadequate solution. Program runtime must be O(n^2) or better to fit the parameters of the problem in a worst-case scenario.
+We were unable to find a O(n) solution, though the judges' slides hint that one exists. We did however find a way to reduce enough of the problem to counting that it should run in O(n^2) time.
 
 ## Solution
 There are two main steps for solving each case.
@@ -29,4 +29,4 @@ Finally, we make a small adjustment to the result. First, we divide by 6 because
 In general, I worked the lower-left corner of the rectangle being point (0, 0) and traveled clockwise around the rectangle. Originally I had
 planned to let indicies be strictly incrementing, so that if point 0 was referenced from point n, it would be point (2L)(2W), but this proved to be cumbersome, so I switched to all indices being in the range [0, (2L)(2W)).
 
-This solution is incomplete; it does not validate when submitted to Kattis. Unfortunately, none of us can figure out what's wrong. It gets the third given example case wrong, returning 164 instead of 158.
+The coordinate system used by the problem is not obvious without reading very carefully. The upper-left corner of the room is (0, 0), and the y-axis goes to the right from there, and the x-axis down. This can be seen because the limits given for the x, y locations of the treasure are (10e−1 <= X <= L−2 * 10e−1),and (10e−1 <= Y <= W−2 * 10e−1)

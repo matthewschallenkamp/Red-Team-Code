@@ -222,10 +222,10 @@ void doCase()
   
   //Add treasure points to vector
   vector<point> treasure;
-  treasure.emplace_back(x, L-y);
-  treasure.emplace_back(x+w, L-y);
-  treasure.emplace_back(x+w, L-y-w);
-  treasure.emplace_back(x, L-y-w);
+  treasure.emplace_back(y, L-x);
+  treasure.emplace_back(y+w, L-x);
+  treasure.emplace_back(y+w, L-x-w);
+  treasure.emplace_back(y, L-x-w);
   
   //Find range of points that cause intersections for point 0
   pair<int, bool> b_begin = findLeftEdge(pts, treasure, pts[0], 1);
@@ -338,9 +338,3 @@ int main()
     
   return 0;
 }
-
-
-
-
-
-
