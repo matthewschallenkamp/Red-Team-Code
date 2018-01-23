@@ -4,19 +4,6 @@
 #include <algorithm>
 #include <sstream>
 
-//https://open.kattis.com/problems/wipeyourwhiteboards
-
-//Solution: Bézout's identity + binary search
-//given (R,S,Q), find (A,B) which satisfy: R*A+S*B=Q
-//extended gcd for 2 numbers: (R,S) finds (A,B) such that R*A+S*B=gcd(R,S)
-//Bézout's identity: given one solution (A,B) to (R*A+S*B=Q), all solutions
-//to that equation are in form (A+k*S/gcd(R,|S|), B-k*R/gcd(R,|S|)) for any integer k
-//we want both coefficients (A+k*S/gcd(R,|S|), B-k*R/gcd(R,|S|)) to be positive
-//since the coefficients follow linear progression both with negative slope, we 
-//can use binary search to find maximal k which give positive coefficients.
-//it can be shown that the extended gcd runs in O(log(max(a,b))) time
-//O(log(2*10^9)) per test case
-
 using namespace std;
 
 typedef unsigned long long ull;
