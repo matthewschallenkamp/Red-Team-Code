@@ -1,4 +1,4 @@
-# Museum
+# Battleship
 https://open.kattis.com/problems/battleship
 
 Tags: Simulation

@@ -1,4 +1,4 @@
-# Museum
+# Ski Jumping
 Taken from https://open.kattis.com/problems/skijumping
 
 Tags: Math, Derivative, Physics, Quadratic Formula
