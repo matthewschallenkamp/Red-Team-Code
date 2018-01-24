@@ -1,8 +1,15 @@
+# Suffix Array Reconstruction
 open.kattis.com/problems/suffixarrayreconstruction
 
-The problem is to reconstruct a string given its suffixes. The suffixes can have
+Tags: Strings
+
+## Problem Summary
+
+Reconstruct a string given its suffixes. The suffixes can have
 at most 1 '*' representing an arbitrary long (possible zero length) sequence of
 characters.
+
+## Solution
 
 Start with a string representing the answer with blank characters.
 
@@ -19,6 +26,8 @@ At the end, if there are still black or unfilled characters, the answer is
 impossible.
 
 Otherwise, output the filled string.
+
+## Complexity
 
 Since there are at most 500,000 characters per test, this linear solution passes
 within the time limit.
