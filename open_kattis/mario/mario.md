@@ -42,7 +42,7 @@ It takes 2*(W-x) time for the second boat to return to position x.
 
 lcm(2*x, 2*(W-x)) <= 2*x*(W-x).
 
-Since either x <= W/2 or (W-x) <= W/2, lcm(2*x,2*(W-x)) <= W^2.
+Since either x <= W/2 or (W-x) <= W/2, lcm(2*x,2*(W-x)) <= x*(W-x) <= W^2.
 
 These boats either intersect, or don't intersect before time t=W^2.
 
