@@ -31,7 +31,7 @@ boat and vice-versa when the boats are at position 3.5.
 
 Why can we bound the simulation by W^2 steps? The worst case for Mario to reach
 position W is if there are 2 boats with ranges: [0,x], and [x,W], which
-intersect at position x.
+intersect at position x, 0 < x < W.
 The first boat is at location 0 at times 0, 2x, 4x, ...
 The second boat is at position x at times 0, 2*(W-x), 4*(W-x), ...
 
