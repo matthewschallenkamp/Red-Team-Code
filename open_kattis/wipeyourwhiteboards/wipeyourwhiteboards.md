@@ -1,9 +1,14 @@
+# Wipe Your Whiteboards
 open.kattis.com/problems/wipeyourwhiteboards
 
-Problem: given (R,S,Q), find (A,B) which satisfy: R*A+S*B=Q and A > 0, B > 0,
-and A is minimal.
+Tags: Bézout's Identity, binary search, GCD
 
-Solution: Bézout's identity + binary search
+## Problem Summary
+
+Given (R,S,Q), find (A,B) which satisfy: R*A+S*B=Q and A > 0, B > 0,
+and A is minimal. 2 <= R <= 10^8, -10^8 <= S <= -2, 1 <= Q <= 10^8
+
+## Solution
 
 First use the extended gcd for 2 numbers R,S which finds (A,B) such that
 R*A+S*B=gcd(R,S) in O(log(max(R,S))). Since S is negative, pass in the absolute
@@ -25,6 +30,8 @@ This pair gives all possible solutions, and we want to find the pair (A,B) such
 that A > 0, B > 0, and A is minimal. Since the coefficients (A,B) follow linear
 progression both with negative slope, we can use binary search on k to find
 maximal k which give positive coefficients.
+
+## Complexity
 
 It can be shown that the extended gcd runs in O(log(max(a,b))) time.
 O(log(2*10^9)+log(max(a,b)) = O(log(2*10^9)) per test case.
