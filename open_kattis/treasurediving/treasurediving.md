@@ -1,0 +1,7 @@
+# Treasure Diving
+
+https://open.kattis.com/problems/treasurediving
+
+The key to solving this problem is to notice that there are only 8 treasures. The number of edges and vertices makes a naive search have very high complexity and take far too long to complete but with only 8 treasures there are only 8! = 40320 paths that we really care about, and a significant amount of overlap between those paths. Since we want to go only treasure to treasure using shortest paths between them, we can precalculate those paths into a 9x9 matrix with the distance between each of the treasures and the exit. To create such a graph we will run djikstras from each of the treasures to each of the others and record the path lengths in a table. To reduce the paths takes mlogn steps per treasure, so O(8 * 50000 * log(10000)), and to search all of the reduced paths with dfs takes O(8!) ~= O(40320). This comes to approximately 5m steps per testcase. With 12 seconds to solve 2000 testcases, I initially thought that this would come out too slow but it appears that kattis does not have a test that pushes that limit.
+
+For some potential optimizations, we could have shortcut out of djikstras once we had paths to each of the treasures, and used previous searches to pre-seed already calculated paths, but at appears that neither of these were needed.
