@@ -1,0 +1,9 @@
+# Godzilla
+
+https://open.kattis.com/problems/godzilla
+
+Godzilla is one of those problems where it is very important to read the problem carefully. There is more complexity in the type/amount of code that you need to write rather than the algorithm. We missed godzilla during the contest because no one read the problem carefully enough to see that the way that godzilla moves is specified completely, which makes the problem much simpler than we expected.
+
+To solve godzilla, we run a flood fill from each of the mechs. This will give us the minimum number of moves it will take any mech to reach a given spot. After doing the initial flood fill, we will begin moving godzilla. Each time godzilla takes a step we need to check if he destroyed a city that allows us to flood more area. This is unlikely to be important now, but we may need to know that a mech can step on a city that godzilla previously destroyed to catch him in later steps. Next we will walk in the cardinal directions out from godzilla and see if there are any spots that can be reached by a mech in fewer steps than we have already taken. When this is the case, we break and print the result.
+
+The total time complexity of this is O(1000*1000) for the flood fill, O(1000*1000) for each of godzilla's moves, and naively O(1000*1000*2000) for the scan. The worst case scenario is one where godzilla starts in the bottom left corner and destroys cities in a spiral pattern inwards towards a trapped mech. This would eliminate the initial flood fill cost and maximize the scanning cost. To shortcut that, we can break on the scan whenever we see an unflooded node, as we are guaranteed that nothing it's connected to can be reached by a mech. However, this last optimization is not required for the kattis solution.
