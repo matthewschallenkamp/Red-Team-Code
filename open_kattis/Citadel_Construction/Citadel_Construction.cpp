@@ -26,7 +26,6 @@ int areaOfTriangle(point A, point B, point C) {
 }
 
 //returns the convex hull of n points, O(n^2)
-//refer to the discussion page why onEdge is false.
 vector<point> convexHull(vector<point> &X, bool onEdge = false) {
     vector<point> hull;
     int N = X.size();
