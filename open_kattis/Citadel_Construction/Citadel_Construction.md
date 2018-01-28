@@ -64,10 +64,9 @@ We know there exists a point at index k such that:
 
 Note: these conditions alone allow us to use ternary search.
 
-These conditions don't necessarily make f'(x) (first deritive of f) monotic.
-Since the points lie on a convex hull, f'(x) is monotic because f''(x) < 0 for
-all x, start<=x<end. We can binary search on f'(x) for 0; f(x) is maximal when
-f'(x)=0.
+These conditions don't necessarily make f'(x) monotic. Since the points lie on a
+convex hull, f'(x) is monotic because f''(x) < 0 for all x, start<=x<end. We can
+binary search on f'(x) for 0; f(x) is maximal when f'(x)=0.
 
 ## Complexity
 
