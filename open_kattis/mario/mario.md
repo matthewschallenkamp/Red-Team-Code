@@ -1,6 +1,6 @@
 # Mario
 
-open.kattis.com/problems/mario
+https://open.kattis.com/problems/mario
 
 Tags: Simulation
 
