@@ -28,3 +28,24 @@ Topics include algorithms in the old 25 pages.
  - disjoint set
  - trie & binary trie
  - sparse table
+ 
+## Advanced Topics (not sure if we should include these)
+ - Euler Tours for a Tree
+ - Least Common Ancestor in rooted tree
+ - Maximum Matching in bipartite graphs
+ - Sqrt Decomposition
+ - Centroid Decomposition in tree
+ - Persistant Seg Trees
+ - 0-1 BFS (shortest path when weights are only 0,1)
+ - Answering subtree queries in rooted tree
+ 
+ 
+Links:
+Data Structures:
+http://codeforces.com/blog/entry/15729
+Graph Algos:
+http://codeforces.com/blog/entry/16221
+0-1 BFS:
+http://codeforces.com/blog/entry/22276
+Answering subtree queries in rooted tree:
+http://codeforces.com/blog/entry/44351
