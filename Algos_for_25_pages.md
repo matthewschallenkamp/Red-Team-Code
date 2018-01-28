@@ -30,11 +30,12 @@ Topics include algorithms in the old 25 pages.
  - sparse table
  
 ## Advanced Topics (not sure if we should include these)
- - Euler Tours for a Tree http://codeforces.com/blog/entry/15729
- - Least Common Ancestor in rooted tree http://codeforces.com/blog/entry/15729
- - Maximum Matching in bipartite graphs http://codeforces.com/blog/entry/15729
+ - Euler Tours for a Tree http://codeforces.com/blog/entry/16221
+ - Least Common Ancestor in rooted tree http://codeforces.com/blog/entry/16221
+ - Maximum Matching in bipartite graphs http://codeforces.com/blog/entry/16221
  - Sqrt Decomposition http://codeforces.com/blog/entry/15729
  - Persistant Seg Trees http://codeforces.com/blog/entry/15729
  - Centroid Decomposition in tree
  - 0-1 BFS (shortest path when weights are only 0,1) http://codeforces.com/blog/entry/22276
  - Answering subtree queries in rooted tree http://codeforces.com/blog/entry/44351
+ 
