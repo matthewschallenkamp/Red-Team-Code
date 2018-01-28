@@ -33,19 +33,19 @@ Why can we bound the simulation by W^2 steps? The worst case for Mario to reach
 position W is if there are 2 boats with ranges: [0,x], and [x,W], which
 intersect at position x, 0 < x < W.
 The first boat is at location 0 at times 0, 2x, 4x, ...
-The second boat is at position x at times 0, 2*(W-x), 4*(W-x), ...
+The second boat is at position x at times 0, 2 * (W-x), 4 * (W-x), ...
 
 The first time both boats are in their starting positions after t=0 is
-t=lcm(2*x,2*(W-x)).
-This is because it takes 2*x time for the first boat to return to position 0.
-It takes 2*(W-x) time for the second boat to return to position x.
+t=lcm(2 * x,2 * (W-x)).
+This is because it takes 2 * x time for the first boat to return to position 0.
+It takes 2 * (W-x) time for the second boat to return to position x.
 
-lcm(2*x, 2*(W-x)) <= 2*x*(W-x).
+lcm(2 * x, 2 * (W-x)) <= 2 * x * (W-x).
 
-Since either x <= W/2 or (W-x) <= W/2,  2*x*(W-x) <= W^2.
+Since either x <= W/2 or (W-x) <= W/2,  2 * x * (W-x) <= W^2.
 
 These boats either intersect, or don't intersect before time t=W^2.
 
 ## Complexity
 
-O(W*W*n) = 500*500*100 ~ 10^8 per test case.
+O(W * W * n) = 500 * 500 * 100 ~ 10^8 per test case.
