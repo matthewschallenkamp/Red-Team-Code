@@ -24,7 +24,7 @@ If our convex hull consists of 2 or 3 points, then the answer is the area of the
 polygon formed by the convex hull. Now consider when the convex hull has more
 than 3 points.
 
-We can iterate over all possible segments of the convex hull. For each
+We can iterate over all segments formed by 2 points in the convex hull. For each
 segment, we can form a quadrilateral with the two points of the segment, and one
 point on either side of the segment. The points on either side of this segment
 form 2 triangles. We can use binary search/ternary search to find the max area
