@@ -1,5 +1,5 @@
 # Suffix Array Reconstruction
-open.kattis.com/problems/suffixarrayreconstruction
+https://open.kattis.com/problems/suffixarrayreconstruction
 
 Tags: Strings
 
