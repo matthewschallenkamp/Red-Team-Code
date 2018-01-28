@@ -1,5 +1,6 @@
 # Wipe Your Whiteboards
-open.kattis.com/problems/wipeyourwhiteboards
+
+https://open.kattis.com/problems/wipeyourwhiteboards
 
 Tags: Bézout's Identity, binary search, GCD
 
