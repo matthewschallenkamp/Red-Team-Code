@@ -30,6 +30,7 @@ Topics include algorithms in the old 25 pages.
  - sparse table
  
 ## Advanced Topics (not sure if we should include these)
+ - Fast O(n) and short minimal lexicographical rotation of a list https://gist.github.com/MaskRay/8803371
  - Euler Tours for a Tree http://codeforces.com/blog/entry/16221
  - Least Common Ancestor in rooted tree http://codeforces.com/blog/entry/16221
  - Maximum Matching in bipartite graphs http://codeforces.com/blog/entry/16221
