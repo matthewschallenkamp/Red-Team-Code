@@ -8,13 +8,13 @@ Topics include algorithms in the old 25 pages.
  - extended gcd
  - chinese remainder theorem gcd inverse
  - fft
- - Row-reduction
+ - Matrix-reduction
  - geometry code in current 25 pages
  - (n choose k) mod p in O(log(10^18)) for prime p
- - fast exponentiation
+ - fast exponentiation (mod n?)
  
 ## Graphs
- - max flow/min cut
+ - max flow/min cut (Ford-Fulkerson)
  - all pairs shortest path
  - Strongly Connected Components (SCC) in directed graph (Kosaraju's Algo)
 
@@ -26,7 +26,7 @@ Topics include algorithms in the old 25 pages.
 ## Data Structures
  - seg tree/fenwick tree
  - disjoint set
- - trie & binary trie
+ - trie & binary trie (Maybe)
  - sparse table
  
 ## Advanced Topics (not sure if we should include these)
