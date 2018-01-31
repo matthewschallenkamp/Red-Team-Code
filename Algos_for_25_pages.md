@@ -11,8 +11,8 @@ Topics include algorithms in the old 25 pages.
  - Matrix-reduction
  - geometry code in current 25 pages
  - (n choose k) mod p in O(log(10^18)) for prime p
- - fast exponentiation (mod n?)
- 
+ - fast exponentiation //This can be easily modified to return (A^B)(mod n) 
+  
 ## Graphs
  - max flow/min cut (Ford-Fulkerson)
  - all pairs shortest path
@@ -26,10 +26,10 @@ Topics include algorithms in the old 25 pages.
 ## Data Structures
  - seg tree/fenwick tree
  - disjoint set
- - trie & binary trie (Maybe)
  - sparse table
  
 ## Advanced Topics (not sure if we should include these)
+ - trie & binary trie
  - Fast O(n) and short minimal lexicographical rotation of a list https://gist.github.com/MaskRay/8803371
  - Euler Tours for a Tree http://codeforces.com/blog/entry/16221
  - Least Common Ancestor in rooted tree http://codeforces.com/blog/entry/16221
