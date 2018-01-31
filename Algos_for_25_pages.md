@@ -4,6 +4,9 @@ use as our 25 pages.
 
 Topics include algorithms in the old 25 pages.
 
+## Complexity
+ - Master Theorem https://i.stack.imgur.com/OtLdE.png
+
 ## Math
  - extended gcd
  - chinese remainder theorem gcd inverse
