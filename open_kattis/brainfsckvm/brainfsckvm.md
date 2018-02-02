@@ -1,0 +1,7 @@
+# brainfsckvm
+
+https://open.kattis.com/problems/brainfsckvm
+
+Brainfsckvm is a very simple problem: implement the instructions given. When running the machine, first attempt to run it 50m steps. If it hits the end of the program, it terminates. Otherwise, run it another 50m steps and keep track of the maximum your pc hits. This will be the ending bracket of the infinite loop.
+
+That done, there are several small optimizations that help make it faster. The first optimization is to keep a map of matching brackets. This can be constructed in linear time based on the program size, and can halve the number of steps you might otherwise need to do later. It's also important to keep both brackets matching forwards and backwards, as entering an open bracket may skip to the corresponding closing bracket. That alone is fast enough to pass kattis, but there are still some further optimizations you can do. One such optimization is to tag each character with the count of equivalant characters after it. Then when when executing +,-,>, or < you can skip the repeats and simply jump based on the tag number. Further optimizations involve combining more expressions together and recognizing certain patterns such as \[-\], which 0's out a cell, and \[->+>+<<\], which copies a value, and handling them specially.
