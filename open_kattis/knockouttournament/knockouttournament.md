@@ -64,8 +64,9 @@ dp[i] is O(k^2) where k = number leaf nodes in subtree i.
 You might think this gives O(n^3) to calculate dp[i] for each node. But remember
 the binary tree is balanced. Thus, consider calculating dp[i] every node i such
 that the depth (distance to root) of i is D: There are O(2^D) of these nodes,
-each taking O(2^(2\*(log(n)-D))) giving O(2^(2\*log(n)-D)) = O(n^2). Doing this
-for each depth gives O(n^2\*log(n)) overall.
+each taking O(2^(2\*(log(n)-D))). This gives O(2^(2\*log(n)-D)) = O(n^2) to
+calculate dp[i] for each node of depth D. Doing this for each depth gives
+O(n^2\*log(n)) overall.
 
 
 
