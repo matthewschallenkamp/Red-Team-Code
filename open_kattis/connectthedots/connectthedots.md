@@ -32,6 +32,16 @@ range of angles:
 
 How do you to calculate the range of angles?
 
+Consider the 2nd test case:
+
+1 2 3 4
+
+8 9 10 11
+
+7 15 16 12
+
+6 14 13 5
+
 Lets first define the angles to be:
 Moving right (from 3 to 4) is 0 degrees.
 Moving up (from 6 to 7) is 90 degrees.
@@ -50,16 +60,6 @@ Both endpoints for the new range are one of the 3 following values:
  - (End+180)%360, exclusive
  
 New range is the min of these values to the max of these values.
-
-Consider the 2nd test case:
-
-1 2 3 4
-
-8 9 10 11
-
-7 15 16 12
-
-6 14 13 5
 
 The range after point 4 is [0,0].
 
