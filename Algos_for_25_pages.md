@@ -28,7 +28,13 @@ Topics include algorithms in the old 25 pages.
  - disjoint set
  - trie & binary trie (Maybe)
  - sparse table
- 
+
+## Geometry
+ - Line-point distance
+ - Polygon area
+ - Convex Hull
+ - Line segment intersect
+
 ## Advanced Topics (not sure if we should include these)
  - Fast O(n) and short minimal lexicographical rotation of a list https://gist.github.com/MaskRay/8803371
  - Euler Tours for a Tree http://codeforces.com/blog/entry/16221
