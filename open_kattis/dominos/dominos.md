@@ -15,7 +15,7 @@ over by hand to make every domino fall.
 First build a directed graph with dominos as nodes, and edges representing
 dominos knocking over other dominos.
 
-Defind a Strongly Connected Component (SCC) as a set of nodes S with this
+Define a Strongly Connected Component (SCC) as a set of nodes S with this
 property: for each node s[i] in S, you can get to each other node s[j] in S by
 traversing a path of edges.
 
