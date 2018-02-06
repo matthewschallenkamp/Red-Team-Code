@@ -53,10 +53,10 @@ New range is the min of these values to the max of these values.
 
 Consider the 2nd test case:
 
-1 2 3 4
-8 9 10 11
-7 15 16 12
-6 14 13 5
+1 2 3 4\n
+8 9 10 11\n
+7 15 16 12\n
+6 14 13 5\n
 
 The range after point 4 is [0,0].
 
