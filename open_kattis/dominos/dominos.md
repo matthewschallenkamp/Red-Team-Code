@@ -27,8 +27,8 @@ the new graph.
 This new graph is generally refered to as the condensation of a graph.
 
 First, the condensation of the graph has no cycles. If there are any cycles in
-the origional graph, all nodes of that cycle is represented in a single node in
-condensation.
+the origional graph, all nodes of that cycle are represented in a single node in
+the condensation.
 
 Second, knocking over any domino i in the origional graph will cause all the
 dominos in the SCC containing node i to also fall.
