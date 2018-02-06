@@ -1,4 +1,4 @@
-# Mario
+# Dominos
 
 https://open.kattis.com/problems/dominos
 
@@ -6,14 +6,14 @@ Tags: Graphs, SCC
 
 ## Problem Summary
 
-Given the layout of n dominoes, n <= 10^5, and given which dominoes will knock
-over other dominoes, find the minimum number of dominoes needed to be knocked
+Given the layout of n dominos, n <= 10^5, and given which dominos will knock
+over other dominos, find the minimum number of dominos needed to be knocked
 over by hand to make every domino fall.
 
 ## Solution
 
-First build a directed graph with dominoes as nodes, and edges representing
-dominoes knocking over other dominoes.
+First build a directed graph with dominos as nodes, and edges representing
+dominos knocking over other dominos.
 
 Defind a Strongly Connected Component (SCC) as a set of nodes S with this
 property: for each node s[i] in S, you can get to each other node s[j] in S by
@@ -31,11 +31,11 @@ the origional graph, all nodes of that cycle is represented in a single node in
 condensation.
 
 Second, knocking over any domino i in the origional graph will cause all the
-dominoes in the SCC containing node i to also fall.
+dominos in the SCC containing node i to also fall.
 
 Because of these properties, our answer is the number of nodes in the
 condensation of the origional graph with indegree=0. Any node in the
-condensation with indegree>0 will have all dominoes knocked over by a domino in
+condensation with indegree>0 will have all dominos knocked over by a domino in
 the parent SCC.
 
 More on SCC's:
