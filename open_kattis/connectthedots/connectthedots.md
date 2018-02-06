@@ -61,7 +61,7 @@ Both endpoints for the new range are one of the 3 following values:
  
 New range is the min of these values to the max of these values.
 
-The range after point 4 is [0,0].
+In the 2nd sample test, the range after point 4 is [0,0].
 
 If we make a segment directly from point 4 to 5, it would have the angle 270,
 inclusive. We can also extend the segment from 3 to 4 infinitly, and then draw a
