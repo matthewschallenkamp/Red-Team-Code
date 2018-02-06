@@ -28,6 +28,10 @@ range of angles:
  - Add 1 to the count of segments
  - Update the range of angles (see discussion)
  
+## Complexity
+
+Updating ranges takes O(1). O(16) Total.
+ 
 ## Discussion
 
 How do you to calculate the range of angles?
