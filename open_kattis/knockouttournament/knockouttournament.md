@@ -48,6 +48,16 @@ sum Pleft \* Pright \* rating(2\*i+1) / (rating(2\*i+1) + rating(2\*i+2)).
 
 We do the same calculation for each player in the right subtree.
 
+The probability Dale wins the tournament is the product of the probabilities
+that he wins at each node. The probability Dale wins at a certain node i is the
+sum of the probabilities he beats each player who has reached the other child of
+the node i.
+
+## Complexity
+
+There are n nodes in the tree, n <= 2^12. The complexity of calculating dp[i] is
+O(k^2). where k = number leaf nodes in subtree i. O(n^2) overall.
+
 
 
 
