@@ -2,7 +2,7 @@
 
 https://open.kattis.com/problems/dominos
 
-Tags: Graphs, SCC
+Tags: Graphs, dfs, SCC
 
 ## Problem Summary
 
