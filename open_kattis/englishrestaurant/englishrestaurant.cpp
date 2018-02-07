@@ -61,8 +61,6 @@ ansType solve(int i, int j, int r, int& N, int& T, vector<int>& tables)
             {
                 for(int k = i; k < j; k++)
                 {
-                    //cerr << i << ", " << j << ", " << k << endl;
-
                     ansType add = make_pair(0, 0);
                     add.second = cont[i][k].second * cont[k+1][j].second *
                         (tables[k+1] - tables[i]) * choose(j-i-1,k-i);
@@ -72,21 +70,7 @@ ansType solve(int i, int j, int r, int& N, int& T, vector<int>& tables)
                     add.first = abs(add.first);
                     add.second = abs(add.second);
 
-//cerr << "--------------" << endl;
-                    //cerr << cont[i][k].second << ", " << cont[k+1][j].second << ", " <<
-                        //(tables[k+1] - tables[i]) << ", " << choose(j-i-1,k-i) << endl;
-//cerr << "--------------" << endl;
-                    //cerr << cont[i][k].first << "/" << cont[i][j].second << " : " << expected(cont[i][k]) << endl;
-                    //cerr << cont[k+1][j].first << "/" << cont[k+1][j].second << " : " << expected(cont[k+1][j]) << endl;
-                    //cerr << tables[k+1] << ", " << tables[i] << ", " << k+1 << " -> " << boundAvg(k+1, i, k+1, N, tables) << endl;
-//cerr << "--------------" << endl;
-
-                    //cerr << cont[i][j].first << "/" << cont[i][j].second << endl;
-
                     cont[i][j] += add;
-
-                    //cerr << add.first << " " << add.second << endl;
-                    //cerr << cont[i][j].first << "/" << cont[i][j].second << endl;
                 }
             }
         }
