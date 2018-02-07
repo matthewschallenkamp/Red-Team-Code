@@ -45,7 +45,7 @@ for each one-bit k in difference. For example, if abs(depth(x) - depth(y)) =
 Now that both nodes (x,y) have equal depth, we jump x and y up at the same time
 until they are the same node which is the LCA(x,y).
 
-If memo[x][k] == memo[y][k] and memo[x][k-1] == memo[y][k-1], then jumping 2^k
+If memo[x][k] == memo[y][k] and memo[x][k-1] != memo[y][k-1], then jumping 2^k
 times leads the same node while jumping 2^(k-1) times doesn't. Thus the LCA(x,y)
 is somewhere between these two depths. we move x and y up the tree 2^(k-1) times
 and repeat.
