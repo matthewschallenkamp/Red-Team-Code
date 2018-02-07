@@ -1,4 +1,4 @@
-# A+B Problem
+# Tourists
 
 https://open.kattis.com/problems/tourists
 
