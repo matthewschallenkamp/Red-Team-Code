@@ -31,7 +31,13 @@ Topics include algorithms in the old 25 pages.
  - disjoint set
  - trie & binary trie
  - sparse table
- 
+
+## Geometry
+ - Line-point distance
+ - Polygon area
+ - Convex Hull
+ - Line segment intersect
+
 ## Advanced Topics (not sure if we should include these)
  - Euler Tours for a Tree http://codeforces.com/blog/entry/16221
  - Least Common Ancestor in rooted tree http://codeforces.com/blog/entry/16221
