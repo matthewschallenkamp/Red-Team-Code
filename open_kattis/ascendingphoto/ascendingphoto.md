@@ -1,0 +1,7 @@
+# Ascending Photo
+
+https://open.kattis.com/problems/ascendingphoto
+
+Ascending photo is a problem that is not all that complicated after a bit of preprocessing. The goal is to make as few cuts as possible while reordering the given numbers into sorted order. A few things hold for this problem; 1. The solution is the same as long as numbers keep their relative order, meaning we can reduce them down to 1,2,3... 2. There is never any reason to cut when the same number is on either side, so those can be reduced together. 3. The only place where we may not need to cut is an edge that will appear in the sorted order, but there can only be one non-cut for each edge. 4. If there are multiple groups of a given number, we cannot choose the same location for our incoming non-cut and our outgoing non-cut, as there will be no way for the others to get in line. Finally 5. Missing any non-cut always allows us to get the next non-cut, and can only impact our score by 1. This means that we only need to keep track of the best two paths through the graph, because those two must contain the past path for the best path.
+
+Knowing all this, we walk through each of our numbers in their sorted order, picking any two possible non-cut locations that match up with our previous paths, and count the maximum non cuts. Our answer is then the length of our compressed array minus the non-cut count. Time complexity is linear.
