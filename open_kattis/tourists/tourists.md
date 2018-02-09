@@ -52,6 +52,8 @@ and repeat.
 
 We can keep track of the distance both nodes (x,y) travel during each jump.
 
+Video explanation: https://www.youtube.com/watch?v=kOfa6t8WnbI&t
+
 ## Complexity
 
 This nested for-loop is O(n\*log(n)):
