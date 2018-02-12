@@ -6,6 +6,9 @@ using namespace std;
 
 struct segment
 {
+	// our recurrence relation is forward = l->forward[r->forward]
+	// because each rotation takes us to the old location of the next item, 
+	// which has to be found in the earlier time.
 	unordered_map<int, int> forward, back;
 	segment *l = nullptr, *r = nullptr;
 	int s, e, m;
@@ -14,6 +17,8 @@ struct segment
 		s = start;
 		e = end;
 		//build subtrees. left will have half to middle, other will have rest
+		//they always start empty
+		//e is 1 past the end, so we are guaranteed that this splits correctly
 		if(s + 1 != e)
 		{
 			m = (s + e)/2;
@@ -39,7 +44,7 @@ struct segment
 				return teacher;
 			}
 		}
-		else
+		else // we cant apply our whole range, so do the subtrees
 		{
 			return l->query(week, r->query(week, teacher));
 		}
@@ -65,7 +70,7 @@ struct segment
 			auto changes = l->update(week, items);
 			//and recombine based on the indexes that changed
 			//the indexes into l that changed are changes
-			//we need to find the right spots that are there
+			//we need to find the inputs to right that come to that spot
 			//so we need to get the backs of the r to each change
 			vector<int> nc;
 			for(auto item : changes)
@@ -75,6 +80,7 @@ struct segment
 				else
 					nc.push_back(item);
 			}
+			//and then update them
 			for(int i = 0; i < nc.size(); i++)
 			{
 				forward[nc[i]] = l->forward[changes[i]];
@@ -84,6 +90,7 @@ struct segment
 		}
 		else
 		{
+			//this is easier than the other case - the changes are the the imputs we want to use
 			auto changes = r->update(week, items);
 			for(auto item : changes)
 			{
