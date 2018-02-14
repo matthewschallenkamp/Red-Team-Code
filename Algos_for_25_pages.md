@@ -15,6 +15,7 @@ Topics include algorithms in the old 25 pages.
  - geometry code in current 25 pages
  - (n choose k) mod p in O(log(10^18)) for prime p
  - fast exponentiation
+ - Shoe Lace Formula
  
 ## Graphs
  - max flow/min cut
