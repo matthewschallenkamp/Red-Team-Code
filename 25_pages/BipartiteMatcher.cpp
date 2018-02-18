@@ -55,7 +55,7 @@ int main() {
     bm.AddEdge(1,2);
     bm.AddEdge(2,2);
     bm.AddEdge(2,0);
-    cout << "maximum number of edges in graph such that all endpoints are distinct: " << bm.Solve() << '\n';
+    cout << "maximum number of edges in bipartite graph such that all endpoints are distinct: " << bm.Solve() << '\n';
     return 0;
 }
 
