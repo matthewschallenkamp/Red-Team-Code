@@ -13,9 +13,9 @@ rooted tree having potentially 100000^(2^(30)) nodes.
 
 First, special case linked lists: distance is the difference between the labels.
 
-Now, assuming the number of leaf nodes >= 2, every tree with k >= 30 will have
->= 2^30 nodes. Since the labels in the queries are bounded by 2^30, if k >= 30,
-we only consider the bottom-left copy of F30, and the path to this subtree.
+Now, assuming the number of leaf nodes >= 2, every tree with k >= 30 will
+have >= 2^30 nodes. Since the labels in the queries are bounded by 2^30, if k >=
+30, we only consider the bottom-left copy of F30, and the path to this subtree.
 
 For each node i in each query, we represent i as an array of leaf nodes in the
 origional tree. Each leaf node represents the node we traverse down to get to
