@@ -1,8 +1,3 @@
-#pragma GCC optimize("Ofast")
-#pragma GCC optimize("unroll-loops")
-#pragma GCC target("sse2")
-
-// #include <bits/stdc++.h>
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -19,15 +14,8 @@ using namespace std;
 #define ld unsigned long long
 #define pb push_back
 #define mp make_pair
-#define D(x) cout<<#x<<" -> "<<x<<'\n'
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define uni(x) (x).erase(unique(all(x)), (x).end())
 #define rep(i, n) for (int32_t i = 0; i < (int32_t)(n); ++i)
 #define rep1(i, n) for (int32_t i = 1; i <= (int32_t)(n); ++i)
-const ld pi = 4.0*atanl(1.0);
-const ll infll = (ll)(1e18) + 10;
-const ll mod = powl(10, 9) + 7;
 
 int n,m;
 set<int> adj[(int)1e5+1];
@@ -77,40 +65,6 @@ void bfs(int start, ld treeSize) {
     }
 }
 
-void dfs1(int node) {
-    visited[node] = true;
-    sizes[node] = 1;
-    for(int to : adj[node]) {
-        if(!visited[to]) {
-            dfs1(to);
-            sizes[node] += sizes[to];
-        }
-    }
-}
-
-int getCentroid1(int node, int tgtSize) {
-    bool isCentroid = true;
-    visited[node] = true;
-    int greatestChild = -1;
-    for(int to : adj[node]) {
-        if(!visited[to]) {
-            if(sizes[to] > tgtSize/2) isCentroid = false;
-            if(greatestChild == -1 || sizes[to] > sizes[greatestChild]) {
-                greatestChild = to;
-            }
-        }
-    }
-    if(isCentroid && tgtSize - sizes[node] <= tgtSize/2) return node;
-    return getCentroid1(greatestChild, tgtSize);
-}
-
-int getCentroid(int start, int tgtSize) {
-    memset(visited,false,sizeof(bool)*(n+m+1)); 
-    dfs1(start);
-    memset(visited,false,sizeof(bool)*(n+m+1)); 
-    return getCentroid1(start, tgtSize);
-}
-
 ld getCost(int nodeA, int nodeB) {
     static map<pair<int, int>, ld> memo;
     pair<int, int> index = mp(min(nodeA, nodeB), max(nodeA, nodeB));
@@ -126,43 +80,6 @@ ld getCost(int nodeA, int nodeB) {
     adj[nodeA].erase(nodeB);
     adj[nodeB].erase(nodeA);
     return memo[index] = minCost/2;
-}
-
-int ternarySearch(int centroid1, int centroid2) {
-    vector<int> path;
-    path.pb(centroid1);
-    bool found = true;
-    while(found) {
-        found = false;
-        for(int to : adj[centroid1]) {
-            if(sum2SqrSave[to] < sum2SqrSave[centroid1]) {
-                path.pb(to);
-                centroid1 = to;
-                found = true;
-            }
-        }
-    }
-    int start = 0, end = path.size()-1, mid1 = 0, mid2 = 0;
-    int bestIndex1 = path[start];
-    while(end-start > 2) {
-        mid1 = (end-start)/3+start;
-        mid2 = (end-start)/3+mid1;
-        ld cost1 = getCost(path[mid1],centroid2);
-        ld cost2 = getCost(path[mid2],centroid2);
-        if(cost1 < cost2) {
-            end = mid2;
-            bestIndex1 = path[end];
-        } else {
-            start = mid1;
-            bestIndex1 = path[start];
-        }
-    }
-    ld bestCost = min(getCost(path[start],centroid2), getCost(path[end],centroid2));
-    if(path.size() > 1) {
-        ld cost = getCost(path[start+1],centroid2);
-        if(cost < bestCost) bestIndex1 = path[start+1], bestCost = cost;
-    }
-    return bestIndex1;
 }
 
 int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
@@ -183,7 +100,6 @@ int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     }
     
     ld best = -1;
-    
     
     memset(visited,false,sizeof(bool)*(n+m+1)); 
     dfs(1);
@@ -239,14 +155,11 @@ int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     {
         for(int j = 0; j < costm.size(); j++)
         {
-            //sum2, sum2sqr
-
-            //total sum is 
+            //sum2 sum2sqr idx
             ld sum = costn[i].first.second * m + costm[j].first.second * n 
                 + 2 * costn[i].first.first * costm[j].first.first
                 + 2 * costn[i].first.first * m + 2 * costm[j].first.first * n
                 + m * n;
-            // cerr << i << " " << j << " " << sum << endl;
             if(sum <= bestc)
             {
                 bestIndex1 = costn[i].second;
@@ -255,14 +168,6 @@ int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
             }
         }
     }
-
-    //dists are
-    // (each t1 + each t2 + 1)^2
-    // simple is t1^2 + t2^2 + 2*t1*t2
-    // per t1 there are t2s, per t2 there are t1s, 
-    // for 2*t1*t2 we can just multiply sums
-    // with +1 we add 2*t1 + 2*t2 + 1, across 2*t1sum*m + 2*t2sum*n + m*n
-    //for each t1 there are t2s, for each t2 there are t1s
 
     cerr << bestIndex1 << " " << bestIndex2 << endl;
     
