@@ -13,8 +13,11 @@ pairs of nodes (i,j) : distance(i,j)^2.
 ## Solution
 
 Let sumA[i] = the sum for each node k in the first tree: distance(i,k).
+
 Let sumB[j] = the sum for each node k in the second tree: distance(j,k).
+
 Let sumASqr[i] = the sum for each node k in the first tree: distance(i,k)^2.
+
 Let sumBSqr[j] = the sum for each node k in the second tree: distance(j,k)^2.
 
 We can calculate sumA[i], sumB[j], sumASqr[i], and sumBSqr[j] for each node i in
