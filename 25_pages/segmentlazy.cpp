@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+#include <deque>
 
 using namespace std;
 
@@ -64,50 +65,48 @@ struct segment {
     }
     for (d -= 2; d >= 0; d--) {
       int x = i >> d;
-      value[x >> 1] = subResult(x >> 1, 1 << (d + 1));
-      delta[x] = joinDeltas(delta[x], delta[x >> 1]);
-      delta[x ^ 1] = joinDeltas(delta[x ^ 1], delta[x >> 1]);
-      delta[x >> 1] = noChange;
+      value[x / 2] = subResult(x / 2, 1 << (d + 1));
+      delta[x] = joinDeltas(delta[x], delta[x / 2]);
+      delta[x ^ 1] = joinDeltas(delta[x ^ 1], delta[x / 2]);
+      delta[x / 2] = noChange;
     }
   }
 
-  int subResult(int i, int len) {
+  data subResult(int i, int len) {
     return joinValueWithDelta(value[i], deltaEffectOnSegment(delta[i], len));
   }
 
-  int query(int from, int to) {
+  data query(int from, int to) {
     from += n;
     to += n;
-    int ofrom = from, oto = to;
     pushDelta(from);
     pushDelta(to);
-    data res = 0;
-    bool found = false;
-    for (int len = 1; from <= to; from = (from + 1) >> 1, to = (to - 1) >> 1, len <<= 1) {
+    deque<pair<int, int>> left, right;
+    for (int len = 1; from <= to; from = (from + 1) / 2, to = (to - 1) / 2, len *= 2) {
       if ((from & 1) != 0) {
-        res = found ? combineVals(res, subResult(from, len)) : subResult(from, len);
-        found = true;
+        left.push_back(make_pair(from, len));
+      }
+      if((to & 1) == 0) {
+        right.push_front(make_pair(to, len));
       }
     }
-    from = ofrom; to = oto;
-    for (int len = 1; from <= to; from = (from + 1) >> 1, to = (to - 1) >> 1, len <<= 1) {
-      if ((to & 1) == 0) {
-        res = found ? combineVals(res, subResult(to, len)) : subResult(to, len);
-        found = true;
-      }
+    for(auto item : right) {
+      left.push_back(item);
     }
-    // if (!found) cerr << "unfound" << endl;
+    data res = subResult(left[0].first, left[0].second);
+    for(int i = 1; i < left.size(); i++) {
+      res = combineVals(res, subResult(left[i].first, left[i].second));
+    }
     return res;
   }
 
   void modify(int from, int to, lazy deltav) {
     from += n;
     to += n;
+    int a = from, b = to;
     pushDelta(from);
     pushDelta(to);
-    int a = from;
-    int b = to;
-    for (; from <= to; from = (from + 1) >> 1, to = (to - 1) >> 1) {
+    for (; from <= to; from = (from + 1) / 2, to = (to - 1) / 2) {
       if ((from & 1) != 0) {
         delta[from] = joinDeltas(delta[from], deltav);
       }
@@ -116,15 +115,15 @@ struct segment {
       }
     }
     for (int i = a, len = 1; i > 1; i >>= 1, len <<= 1) {
-      value[i >> 1] = combineVals(subResult(i, len), subResult(i ^ 1, len));
+      value[i / 2] = combineVals(subResult(min(i, i ^ 1), len), subResult(max(i, i ^ 1), len));
     }
     for (int i = b, len = 1; i > 1; i >>= 1, len <<= 1) {
-      value[i >> 1] = combineVals(subResult(i, len), subResult(i ^ 1, len));
+      value[i / 2] = combineVals(subResult(min(i, i ^ 1), len), subResult(max(i, i ^ 1), len));
     }
   }
 };
 
-//Circular rmq
+// Circular rmq
 // int main()
 // {
 //   ios_base::sync_with_stdio(false);
