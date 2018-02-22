@@ -1,4 +1,4 @@
-# Battleship
+# Joining Networks
 
 https://open.kattis.com/problems/joiningnetwork
 
