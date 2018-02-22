@@ -28,6 +28,7 @@ The transmission cost for the first tree is half the sum for all i: sumASqr[i]
 (each path is counted twice, once for each endpoint).
 
 Let costA = the transmission cost for the first tree.
+
 Let costB = the transmission cost for the second tree.
 
 The transmission cost for the new tree = costA + costB + distance(x,y)^2 for
