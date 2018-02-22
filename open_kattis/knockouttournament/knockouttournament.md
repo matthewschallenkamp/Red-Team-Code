@@ -1,4 +1,4 @@
-# Connect the Dots
+# Knockout Tournament
 https://open.kattis.com/problems/knockout
 
 Tags: Trees, Math, Dynamic Programming
