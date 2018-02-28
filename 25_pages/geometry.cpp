@@ -4,10 +4,20 @@
 #include <cmath>
 #include <algorithm>
 #include <map>
+#include <set>
 #include <limits>
 #include <stack>
+#include <random>
 
 using namespace std;
+
+//Constant values to be returned
+constexpr int Colinear = -1, NoIntersect = 0, Intersect = 1;
+constexpr int CW = 2, CCW = 3;
+constexpr int Inside = 4, Outside = 5, OnEdge = 6;
+
+//Epsilon for all double comparisons
+const double EPSILON = 0.0001;
 
 struct point
 {
@@ -24,12 +34,12 @@ struct point
 
     bool operator == (const point& other) const
     {
-        return abs(other.x - x) < 0.0001 && abs(other.y - y) < 0.0001;
+        return abs(other.x - x) < EPSILON && abs(other.y - y) < EPSILON;
     }
 
     bool operator != (const point& other) const
     {
-        return abs(other.x - x) > 0.0001 || abs(other.y - y) > 0.0001;
+        return abs(other.x - x) > EPSILON || abs(other.y - y) > EPSILON;
     }
 
     point operator *(const long double& d) const
@@ -69,16 +79,6 @@ struct segment
     point p1, p2;
 };
 
-//Constant values to be returned
-constexpr int Colinear = -1;
-constexpr int NoIntersect = 0;
-constexpr int Intersect = 1;
-constexpr int CW = 2;
-constexpr int CCW = 3;
-constexpr int Inside = 4;
-constexpr int Outside = 5;
-constexpr int OnEdge = 6;
-
 //Dot product ab.bc
 double dot(const point& a, const point& b, const point& c)
 {
@@ -100,7 +100,7 @@ double cross(const point& A, const point& B, const point& C)
 int orientation(const point& p, const point& q, const point& r)
 {
     double val = cross(p, q, r);
-    if(abs(val) < 0.0001) return Colinear;
+    if(abs(val) < EPSILON) return Colinear;
     return (val > 0) ? CW : CCW;
 }
 
@@ -108,8 +108,8 @@ int orientation(const point& p, const point& q, const point& r)
 //but doesn't guarantee it is
 bool onSegment(const point& p, const segment& s)
 {
-    bool x = (abs(s.p1.x - s.p2.x) < 0.001 && abs(p.x - s.p2.x) < 0.001) || (p.x <= max(s.p1.x, s.p2.x) && p.x >= min(s.p1.x, s.p2.x));
-    bool y = (abs(s.p1.y - s.p2.y) < 0.001 && abs(p.y - s.p2.y) < 0.001) || (p.y <= max(s.p1.y, s.p2.y) && p.y >= min(s.p1.y, s.p2.y));
+    bool x = (abs(s.p1.x - s.p2.x) < EPSILON && abs(p.x - s.p2.x) < EPSILON) || (p.x <= max(s.p1.x, s.p2.x) && p.x >= min(s.p1.x, s.p2.x));
+    bool y = (abs(s.p1.y - s.p2.y) < EPSILON && abs(p.y - s.p2.y) < EPSILON) || (p.y <= max(s.p1.y, s.p2.y) && p.y >= min(s.p1.y, s.p2.y));
     return x && y;
 }
 
@@ -150,7 +150,7 @@ vector<point> intersect(const segment& s1, const segment& s2)
     long double b1 = a.x - b.x, b2 = c.x - d.x;
     long double c1 = a1*a.x + b1*a.y, c2 = a2*c.x + b2*c.y;
     long double det = a1*b2 - a2*b1;
-    if(abs(det) > 0.001)
+    if(abs(det) > EPSILON)
     {
         point inter((b2*c1 - b1*c2)/det, (a1*c2 - a2*c1)/det);
         //cout << "Checking " << inter << " vs segments" << endl;
@@ -173,6 +173,18 @@ double mag(const point& p1)
     return sqrt(sqmag(p1));
 }
 
+//Scalar projection of vector a onto vector b
+double sproject(const point& a, const point& b)
+{
+    return dot(a, point(0, 0), b)/mag(b);
+}
+
+//Vector projection of vector a onto vector b
+point vproject(const point& a, const point& b)
+{
+    return b * sproject(a, b) / mag(b);
+}
+
 //Checks if two segments straddle each other
 bool straddle(const segment& s1, const segment& s2)
 {
@@ -182,7 +194,7 @@ bool straddle(const segment& s1, const segment& s2)
     if((cross1 > 0 && cross2 > 0) || 
        (cross1 < 0 && cross2 < 0)) return false;
 
-    if(abs(cross1) < 0.001 && abs(cross2) < 0.001 &&
+    if(abs(cross1) < EPSILON && abs(cross2) < EPSILON &&
        orientation(s1.p2, s2.p1, s2.p2) != Colinear)
        return false;
     
@@ -258,63 +270,50 @@ int pointInPoly(const vector<point>& poly, const point& p)
 
 //Computes the convex hull of a set of points
 //Using the graham scan algorithm
-vector<point> convexHull(vector<point> points)
-{
+vector<point> convexHull(vector<point> points) {
     if(points.size() < 4) return points;
-
     point lowestPoint = points[0];
 
-    //Find lowest, leftmost point
+    //Don't just use point < operator because that checks
+    //x then y; we need y then x
     for(int i=0; i<points.size(); i++)
-        if(points[i].y < lowestPoint.y ||
-          (points[i].y == lowestPoint.y && 
-           points[i].x < lowestPoint.x))
-                lowestPoint = points[i];
+        if(points[i].y < lowestPoint.y || 
+          (abs(points[i].y - lowestPoint.y) < EPSILON && points[i].x < lowestPoint.x))
+            lowestPoint = points[i];
 
-    //Sort points by polar angle to
-    //lowest point
     point horiz = lowestPoint + point(1, 0);
     sort(points.begin(), points.end(),
-    [=](const point& l, const point& r)
-    {
+    [=](const point& l, const point& r) {
+        if(r == lowestPoint) return false;
         if(l == lowestPoint) return true;
 
-        double scoreL = dot(horiz, lowestPoint, l) / (mag(horiz-lowestPoint)*mag(lowestPoint-l));
-        double scoreR = dot(horiz, lowestPoint, r) / (mag(horiz-lowestPoint)*mag(lowestPoint-r));
+        long double scoreL = dot(horiz, lowestPoint, l) / (mag(horiz-lowestPoint)*mag(l-lowestPoint));
+        long double scoreR = dot(horiz, lowestPoint, r) / (mag(horiz-lowestPoint)*mag(r-lowestPoint));
         
         return scoreL < scoreR;
     });
 
-    //Copy last point to first; it's guaranteed
-    //part of the hull
+/*
+    cerr << "Hull sort" << endl;
+    for(point& p : points)
+        cerr << p << " ";
+    cerr << endl;
+*/
+
     points.insert(points.begin(), points.back());
 
-    //M = number of points to return 
     uint32_t m = 1;
-
-    //Walk around points, adding them to hull
-    for(int i=2; i<points.size()-1; i++)
-    {
-        //Walk backwards removing points as long
-        //as there is a 'right turn'
-        while(cross(points[m-1], points[m], points[i]) <= 0)
-        {
-            if(m > 1)
-            {
-                m--;
-                continue;
-            }
-            //Degenerate case, all points are a line
-            else if(i == points.size()-1)
-                break;
-            else
-                i++;
+    for(int i=2; i<points.size(); i++) {
+        while(cross(points[m-1], points[m], points[i]) <= -EPSILON) {
+            if(m > 1) { m--; continue; }
+            else if(i == points.size()-1) break;
+            else i++;
         }
 
         m++;
-        swap(points[m], points[i]);
+        std::swap(points[m], points[i]);
     }
-    points.resize(m+1);
+    points.resize(m);
     if(points.front() == points.back()) points.pop_back();
 
     return points;
@@ -323,86 +322,46 @@ vector<point> convexHull(vector<point> points)
 #include <array>
 int main()
 {
-    /*
-    vector<point> test
-    { point(0, 0),
-      point(1, 1),
-      point(-1, -1),
-      point(2, 0),
-      point(-1, 1),
-      point(-2, 1),
-      point(2, 1),
-      point(2, -1),
-      point(0, 1),
-      point(-1, 2)};
-    */
+    mt19937_64 reng;
+    uniform_real_distribution<> dist(-1000, 1000);
 
-    /*
-    vector<point> test
-    { point(-1, -1),
-      point(-2, 1),
-      point(2, 1),
-      point(2, -1),
-      point(-1, 2)};
-    */
-
-    /*
-    vector<point> test
-    { point(0, 0),
-      point(0, 0),
-      point(0, 0),
-      point(0, 0),
-      point(0, 0)};
-    */
-
-    /*
-    vector<point> test
-    { point(0, 0),
-      point(0, 1),
-      point(0, 2),
-      point(0, 3),
-      point(0, 4)};
-    */
-
-    vector<point> hull
+    for(int i=0; i<100; i++)
     {
-        point(0, 0),
-        point(1, 0),
-        point(1, 1),
-        point(0, 1),
-        point(0, 2),
-        point(-1, 2),
-        point(-1, 0)
-    };
+        vector<point> pts;
+        //cerr << endl << "Points: " << endl;
+        for(int j=0; j<100; j++)
+        {  
+            point p(dist(reng), dist(reng));
+            //cerr << p << " ";
+            pts.push_back(p);
+        }
+        //cerr << endl;
+
+        vector<point> hull = convexHull(pts);
+
 /*
-    vector<pair<point, int>> test
-    {
-      {point(-2, 1),Outside},
-      {point(-2, 0),Outside}};
-
+        cerr << "Hull: " << endl;
+        for(point& p : hull)
+            cerr << p << " ";
+        cerr << endl;
 */
-
-    vector<pair<point, int>> test
-    { {point(0, 0), OnEdge},
-      {point(0.5, 0),OnEdge},
-      {point(0, 0.5),Inside},
-      {point(-0.5, 0.5),Inside},
-      {point(-0.5, 2),OnEdge},
-      {point(-0.5, 1),Inside},
-      {point(-2, 1),Outside},
-      {point(-2, 0),Outside},
-      {point(-2, -1),Outside},
-      {point(0, 2.5),Outside},
-      {point(-1.5, 2.5),Outside},
-      {point(0.5, 1.5),Outside},
-      {point(2, 1), Outside}};
-
-    for(auto& p : test)
-        cout << p.first.x << " " << p.first.y << " : " << 
-            pointInPoly(hull, p.first) << " vs. " << p.second << endl;
+        set<point> hullMap(hull.begin(), hull.end());
+        for(point& p : pts)
+        {
+            int in = pointInPoly(hull, p);
+            if((in == OnEdge && !hullMap.count(p)) || in == Outside || (in == Inside && hullMap.count(p)))
+                cerr << "Incorrect: " << p << " " << in << endl;
+        }
+    }
 }
 
 /*
+constexpr int Colinear = -1, NoIntersect = 0, Intersect = 1;
+constexpr int CW = 2, CCW = 3;
+constexpr int Inside = 4, Outside = 5, OnEdge = 6;
+
+const double EPSILON = 0.00001;
+
 struct point
 {
     long double x, y;
@@ -412,10 +371,10 @@ struct point
     { return (x < other.x ? true : (x == other.x && y < other.y)); }
 
     bool operator == (const point& other) const
-    { return abs(other.x - x) < 0.0001 && abs(other.y - y) < 0.0001; }
+    { return abs(other.x - x) < EPSILON && abs(other.y - y) < EPSILON; }
 
     bool operator != (const point& other) const
-    { return abs(other.x - x) > 0.0001 || abs(other.y - y) > 0.0001; }
+    { return abs(other.x - x) > EPSILON || abs(other.y - y) > EPSILON; }
 
     point operator *(const long double& d) const
     { return point(x*d, y*d); }
@@ -438,15 +397,6 @@ ostream& operator << (ostream& out, const point& p)
 
 struct segment { point p1, p2; };
 
-constexpr int Colinear = -1;
-constexpr int NoIntersect = 0;
-constexpr int Intersect = 1;
-constexpr int CW = 2;
-constexpr int CCW = 3;
-constexpr int Inside = 4;
-constexpr int Outside = 5;
-constexpr int OnEdge = 6;
-
 double dot(const point& a, const point& b, const point& c) {
     point AB = b - a;
     point BC = c - b;
@@ -460,13 +410,13 @@ double cross(const point& A, const point& B, const point& C) {
 
 int orientation(const point& p, const point& q, const point& r) {
     double val = cross(p, q, r);
-    if(abs(val) < 0.0001) return Colinear;
+    if(abs(val) < EPSILON) return Colinear;
     return (val > 0) ? CW : CCW;
 }
 
 bool onSegment(const point& p, const segment& s) {
-    bool x = (abs(s.p1.x - s.p2.x) < 0.001 && abs(p.x - s.p2.x) < 0.001) || (p.x <= max(s.p1.x, s.p2.x) && p.x >= min(s.p1.x, s.p2.x));
-    bool y = (abs(s.p1.y - s.p2.y) < 0.001 && abs(p.y - s.p2.y) < 0.001) || (p.y <= max(s.p1.y, s.p2.y) && p.y >= min(s.p1.y, s.p2.y));
+    bool x = (abs(s.p1.x - s.p2.x) < EPSILON && abs(p.x - s.p2.x) < EPSILON) || (p.x <= max(s.p1.x, s.p2.x) && p.x >= min(s.p1.x, s.p2.x));
+    bool y = (abs(s.p1.y - s.p2.y) < EPSILON && abs(p.y - s.p2.y) < EPSILON) || (p.y <= max(s.p1.y, s.p2.y) && p.y >= min(s.p1.y, s.p2.y));
     return x && y;
 }
 
@@ -489,7 +439,7 @@ vector<point> intersect(const segment& s1, const segment& s2) {
 
     long double a1 = b.y - a.y, a2 = d.y - c.y, b1 = a.x - b.x, b2 = c.x - d.x;
     long double c1 = a1*a.x + b1*a.y, c2 = a2*c.x + b2*c.y, det = a1*b2 - a2*b1;
-    if(abs(det) > 0.001) {
+    if(abs(det) > EPSILON) {
         point inter((b2*c1 - b1*c2)/det, (a1*c2 - a2*c1)/det);
         if(onSegment(inter, s1) && onSegment(inter, s2))
             return {inter};
@@ -503,13 +453,19 @@ double sqmag(const point& p1)
 double mag(const point& p1)
 { return sqrt(sqmag(p1)); }
 
+double sproject(const point& a, const point& b)
+{ return dot(a, point(0, 0), b)/mag(b); }
+
+point vproject(const point& a, const point& b)
+{ return b * sproject(a, b) / mag(b); }
+
 bool straddle(const segment& s1, const segment& s2) {
     long double cross1 = cross(s1.p1, s1.p2, s2.p1);
     long double cross2 = cross(s1.p1, s1.p2, s2.p2);
 
     if((cross1 > 0 && cross2 > 0) || (cross1 < 0 && cross2 < 0)) return false;
 
-    if(abs(cross1) < 0.001 && abs(cross2) < 0.001 &&
+    if(abs(cross1) < EPSILON && abs(cross2) < EPSILON &&
        orientation(s1.p2, s2.p1, s2.p2) != Colinear) return false;
     
     return true;
@@ -568,35 +524,35 @@ vector<point> convexHull(vector<point> points) {
     point lowestPoint = points[0];
 
     for(int i=0; i<points.size(); i++)
-        if(points[i].y < lowestPoint.y ||
-          (points[i].y == lowestPoint.y && 
-           points[i].x < lowestPoint.x))
-                lowestPoint = points[i];
+        if(points[i].y < lowestPoint.y || 
+          (abs(points[i].y - lowestPoint.y) < EPSILON && points[i].x < lowestPoint.x))
+            lowestPoint = points[i];
 
     point horiz = lowestPoint + point(1, 0);
     sort(points.begin(), points.end(),
     [=](const point& l, const point& r) {
+        if(r == lowestPoint) return false;
         if(l == lowestPoint) return true;
 
-        double scoreL = dot(horiz, lowestPoint, l) / (mag(horiz-lowestPoint)*mag(lowestPoint-l));
-        double scoreR = dot(horiz, lowestPoint, r) / (mag(horiz-lowestPoint)*mag(lowestPoint-r));
+        long double scoreL = dot(horiz, lowestPoint, l) / (mag(horiz-lowestPoint)*mag(l-lowestPoint));
+        long double scoreR = dot(horiz, lowestPoint, r) / (mag(horiz-lowestPoint)*mag(r-lowestPoint));
         
         return scoreL < scoreR;
     });
+
     points.insert(points.begin(), points.back());
 
     uint32_t m = 1;
-    for(int i=2; i<points.size()-1; i++) {
-        while(cross(points[m-1], points[m], points[i]) <= 0) {
+    for(int i=2; i<points.size(); i++) {
+        while(cross(points[m-1], points[m], points[i]) <= -EPSILON) {
             if(m > 1) { m--; continue; }
             else if(i == points.size()-1) break;
             else i++;
         }
 
-        m++;
-        swap(points[m], points[i]);
+        std::swap(points[m++], points[i]);
     }
-    points.resize(m+1);
+    points.resize(m);
     if(points.front() == points.back()) points.pop_back();
 
     return points;
