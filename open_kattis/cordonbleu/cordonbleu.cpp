@@ -1,9 +1,8 @@
+#include <iostream>
 #include <vector>
-#include <utility>
+#include <limits>
 #include <algorithm>
 #include <numeric>
-#include <limits>
-
 using namespace std;
 
 //jobs X workers cost matrix
@@ -89,4 +88,53 @@ int64_t HungarianMatch(const vector<vector<int64_t>>& costs)
         }
     }
     return -(accumulate(lx.cbegin(), lx.cend(), 0) + accumulate(ly.cbegin(), ly.cend(), 0));
+}
+
+struct point
+{
+    int32_t x, y;
+};
+
+bool operator !=(const point& l, const point& r)
+{
+    return l.x != r.x || l.y != r.y;
+}
+
+int32_t dist(const point& l, const point& r)
+{
+    return abs(l.x - r.x) + abs(l.y - r.y);
+}
+
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+
+    vector<point> wine(n);
+    for(point& p : wine)
+        cin >> p.x >> p.y;
+
+    vector<point> couriers(m);
+    for(point& p : couriers)
+        cin >> p.x >> p.y;
+
+    point restaurant;
+    cin >> restaurant.x >> restaurant.y;
+
+    //Add phantom couriers at restaurant
+    uint64_t totalCouriers = couriers.size() + wine.size() - 1;
+    couriers.reserve(totalCouriers);
+    while(couriers.size() < totalCouriers)
+        couriers.push_back(restaurant);
+
+    //Build cost array
+    vector<vector<int64_t>> costs(wine.size(), vector<int64_t>(couriers.size()));
+    for(uint64_t i=0; i<wine.size(); i++)
+        for(uint64_t j=0; j<couriers.size(); j++)
+            costs[i][j] = -(dist(couriers[j], wine[i]) + dist(wine[i], restaurant));
+
+    //If we have multiple wine bottles far from the restaurant
+    //use the Hungarian method to determine which
+    //couriers should pick up which bottles
+    cout << HungarianMatch(costs) << endl;
 }
