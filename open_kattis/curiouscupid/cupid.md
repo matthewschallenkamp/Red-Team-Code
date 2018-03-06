@@ -1,5 +1,7 @@
 # Curious Cupid
 
+https://open.kattis.com/problems/cupid
+
 Tags: Mo's Algorithm, Square-Root Decomposition
 
 ## Problem Summary
