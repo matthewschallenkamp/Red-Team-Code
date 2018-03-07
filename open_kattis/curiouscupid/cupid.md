@@ -59,19 +59,3 @@ we again update the according info.
 
 Since adding and removing one element to the segment is O(1), we have
 O(n\*sqrt(n)) time overall.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
