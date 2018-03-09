@@ -65,7 +65,7 @@ n! % p in an array. Let fact[i] = (i!) % p. Then, choose(n,k) =
 fact[n]\*(fact[k]\*fact[n-k])^(p-2) % p. But we can do better.
 
 Let iFact[i] = (i!)^(-1) % p, iFact is short for inverse factorial. Calculate
-iFact[10^6] first : iFact[10^6] = (10^6)^(p-2) % p.
+iFact[10^6] first : iFact[10^6] = (10^6!)^(p-2) % p.
 
 Since (n!)^-1 \* n = ((n-1)!)^-1, iFact[i-1] = iFact[i]\*i % p.
 
