@@ -9,3 +9,5 @@ Tags: dynamic programming
 ## Solution
 
 http://www.csc.kth.se/~austrin/icpc/finals2017solutions.pdf
+
+https://www.youtube.com/watch?v=IHQB2B-E_MY&list=PLm9puTBNlJjVygEVzYgTfoQ3bDppGYzuW&index=8
