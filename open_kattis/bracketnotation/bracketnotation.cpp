@@ -65,7 +65,7 @@ int main()
 	//shrink our to vector to how large we actually need
 	closer.resize(colonnum+1);
 	//set up our colon locations to be all 4 (the smallest possible)
-	colonlocs.resize(closer.size(),4);
+	colonlocs.resize(closer.size(), 4);
 
 
 

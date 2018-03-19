@@ -21,7 +21,7 @@ int main()
 			indexes[here] = i;
 		}
 		bool good = true;
-		for(int step = 1; step < n; step++)
+		for(int step = 1; good && step < n; step++)
 		{
 			for(int i = step + step; i < n; i++)
 			{

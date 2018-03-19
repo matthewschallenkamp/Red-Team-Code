@@ -147,7 +147,6 @@ int main()
 
 	sort(newm.begin(), newm.end(), [&strs] (int l, int r) {return strs[l] < strs[r];});
 	for(auto item : newm)
-
 		printf("%s\n", strs[item].c_str());
 
 	return 0;
