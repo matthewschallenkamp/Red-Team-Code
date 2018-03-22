@@ -1,4 +1,4 @@
-#Oil
+# Oil
 
 https://open.kattis.com/problems/oil2
 
