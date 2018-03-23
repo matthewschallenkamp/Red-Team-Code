@@ -2,20 +2,9 @@
 using namespace std;
 typedef long long ll;
 
-//maxDist is the longest distince we can hit
-//maxLength is the maximum length of a hole
-int maxDist = 0, maxLength = 0;
+const int Max = 5e5;
 
-void mult(vector<int> &a, vector<int> &b, vector<int> &c) {
-    c.clear();
-    for(int degree = 0; degree <= maxLength; ++degree) {
-        int sum = 0;
-        for(int i = 0; i <= degree; ++i) {
-            sum += a[degree-i] * b[i];
-        }
-        c.push_back(sum);
-    }
-}
+
 
 typedef complex<double> cd;
 typedef vector<cd> vcd;
@@ -72,14 +61,19 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c) {
     int n = a.size() + b.size() - 1;
     n = (ll)(ceil(log2(n)));
     n = (ll)pow(2, n);
-    vector<complex<double> > coefA(n, complex<double>(0,0)), coefB(n, complex<double>(0,0)), rootsA, rootsB;
-    for(int i = 0; i < a.size(); i++) {
-        coefA[i] = complex<double>(a[i],0);
+    vector<complex<double> > coefA, coefB, rootsA, rootsB;
+    for(int i = 0; i < n; ++i) {
+        if(i < a.size()) {
+            coefA.push_back(complex<double>(a[i],0));
+        } else {
+            coefA.push_back(complex<double>(0,0));
+        }
+        if(i < b.size()) {
+            coefB.push_back(complex<double>(b[i],0));
+        } else {
+            coefB.push_back(complex<double>(0,0));
+        }
     }
-    for(int i = 0; i < b.size(); i++) {
-        coefB[i] = complex<double>(b[i],0);
-    }
-
     rootsA = fft(coefA);
     rootsB = fft(coefB);
 
@@ -98,37 +92,37 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c) {
     c.resize(a.size() + b.size() - 1);
 }
 
+
 int main() {
-    //solution to golf bot
-    //https://open.kattis.com/problems/golfbot
-    int n;
-    cin >> n;
-    vector<int> dist(n);
-    for(int &x : dist) {
-        cin >> x;
-        maxDist = max(maxDist, x);
-    }
-    int m;
-    cin >> m;
-    vector<int> holeLengths(m);
-    for(int &x : holeLengths) {
-        cin >> x;
-        maxLength = max(maxLength, x);
-    }
-    vector<int> a(maxLength+1,0),b(maxLength+1,0),c;
-    a[0] = 1;
-    for(int x : dist) a[x] = 1;
-    for(int x : holeLengths) b[x] = 1;
-    multFFT(a, a, c);
-    int holes = 0;
-    for(int i = 0; i <= maxLength; ++i) 
-        if(b[i] == 1 && c[i] >= 1) {
-            holes++;
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    vector<int> cnts(Max+1,0), product;
+    for(int a = 1; a <= Max; ++a) {
+        for(int b = 1; a*b <= Max; ++b) {
+            cnts[a*b]++;
         }
+    }
+    multFFT(cnts, cnts, product);
     
-    cout << holes << '\n';
+    int n,l,r;
+    cin >> n;
+    while(n--) {
+        cin >> l >> r;
+        int largest = 0, pos;
+        for(int i = l; i <= r; ++i) {
+            if(product[i] > largest) {
+                largest = product[i];
+                pos = i;
+            }
+        }
+        cout << pos << ' ' << product[pos] << '\n';
+    }
     return 0;
 }
+
+
+
+
 
 
 

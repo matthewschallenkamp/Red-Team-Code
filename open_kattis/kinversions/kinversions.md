@@ -1,0 +1,5 @@
+# K inversions
+
+https://open.kattis.com/problems/kinversions
+
+K inversions is an FFT problem. You are given a string with a number of As and Bs in it, and you need to consider all of the B-A pairs, group them by length, and print their counts. Lets consider the As and the Bs as two polynomials. For Bs x^-k will represent a B at position k in our string, and for the As x^k will represent an A at position k in our string. With this in hand we want to find all of the coefficients of As \* Bs = Cs. Each C \* x^k will represent that there are C pairs with difference k. This comes from our indexing before: If we have an A at position l and a B at position m, then we have one distance count of (l - m). As our polynomial already has our B indexes inverted we now have the convolution equation C[i] = sum(As[j] + Bs[i-j]) which we use our FFT to calculate in n\*log(n) time. There is one small issue which is that we have negative indexes for our Bs. We can fix this by offsetting them by n and offsetting the result by n, or in polynomial terms multiplying by x^n at the start and dividing by x^n at the end.

@@ -1,4 +1,8 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <complex>
 using namespace std;
 typedef long long ll;
 
@@ -61,6 +65,7 @@ vcd fft(const vcd &as) {
     return cur;
 }
 
+
 void reverseFFT(int n, vector<complex<double> > &coef, vector<complex<double> > &roots) {
     roots.clear();
     roots = fft(coef);
@@ -74,12 +79,11 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c) {
     n = (ll)pow(2, n);
     vector<complex<double> > coefA(n, complex<double>(0,0)), coefB(n, complex<double>(0,0)), rootsA, rootsB;
     for(int i = 0; i < a.size(); i++) {
-        coefA[i] = complex<double>(a[i],0);
+        coefA[i] = complex<double>(a[i], 0);
     }
     for(int i = 0; i < b.size(); i++) {
-        coefB[i] = complex<double>(b[i],0);
+        coefB[i] = complex<double>(b[i], 0);
     }
-
     rootsA = fft(coefA);
     rootsB = fft(coefB);
 
@@ -88,64 +92,33 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c) {
         prod.at(i) = rootsA[i] * rootsB[i];
     }
     vector<complex<double> > answer;
-       
-    reverseFFT(n,prod,answer);
-       
-    //c.clear();
+    reverseFFT(n,prod,answer);       
+    c.clear();
     for(auto &x : answer) {
         c.push_back(round(x.real()));
     }
     c.resize(a.size() + b.size() - 1);
 }
 
-int main() {
-    //solution to golf bot
-    //https://open.kattis.com/problems/golfbot
-    int n;
-    cin >> n;
-    vector<int> dist(n);
-    for(int &x : dist) {
-        cin >> x;
-        maxDist = max(maxDist, x);
-    }
-    int m;
-    cin >> m;
-    vector<int> holeLengths(m);
-    for(int &x : holeLengths) {
-        cin >> x;
-        maxLength = max(maxLength, x);
-    }
-    vector<int> a(maxLength+1,0),b(maxLength+1,0),c;
-    a[0] = 1;
-    for(int x : dist) a[x] = 1;
-    for(int x : holeLengths) b[x] = 1;
-    multFFT(a, a, c);
-    int holes = 0;
-    for(int i = 0; i <= maxLength; ++i) 
-        if(b[i] == 1 && c[i] >= 1) {
-            holes++;
-        }
-    
-    cout << holes << '\n';
-    return 0;
+int main()
+{
+  string s;
+  cin >> s;
+  vector<int> as(s.size(), 0), bs(s.size(), 0), res(s.size(), 0);
+  for(int i = 0; i < s.size(); i++)
+  {
+    if(s[i] == 'A')
+      as[i]++;
+    else
+      bs[s.size() - i - 1]++;
+  }
+  multFFT(as, bs, res);
+  for(auto item : res) 
+    cerr << item << " ";
+  cerr << endl;
+  for(int i = s.size(); i < res.size(); i++) {
+    cout << res[i] << "\n";
+  }
+  cout << endl;
+  return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
