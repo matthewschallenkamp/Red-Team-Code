@@ -18,7 +18,7 @@ pdf: main.pdf
 main.pdf: main.tex clibs
 	pdflatex -halt-on-error main.tex
 
-clibs: libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so
+clibs: libhungarian.so libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so
 
 libfourier.so: fourier/fft.cpp fourier/fft-interface.cpp
 	g++ -shared -fPIC --std=c++11 -o $@ $^
@@ -34,3 +34,7 @@ libgraph.so: graph/graph-interface.cpp graph/djikstra.cpp graph/graph.hpp
 
 libkmp.so: kmp/kmp-interface.cpp kmp/kmp.hpp
 	g++ -shared -fPIC --std=c++11 -o libkmp.so kmp/kmp-interface.cpp
+
+libhungarian.so: hungarian/hungarian-interface.cpp hungarian/hungarian.cpp
+	g++ -shared -fPIC --std=c++11 -o libhungarian.so hungarian/hungarian-interface.cpp hungarian/hungarian.cpp
+

@@ -15,7 +15,7 @@ local lib = ffi.load "./libprimes.so"
 local sieve = ffi.metatype("struct sieve",
   {
     __new = function(self, n)
-      return ffi.new("struct sieve", lib.sieve_gen(tonumber(n)))
+      return ffi.new("struct sieve", lib.sieve_gen(n))
     end,
     __index = function(self, idx)
       return lib.sieve_get(self.s, idx)
