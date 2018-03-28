@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <complex>
+#include <algorithm>
 using namespace std;
 typedef long long ll;
 
