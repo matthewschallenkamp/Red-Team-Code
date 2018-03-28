@@ -7,7 +7,7 @@ property 'fenwick tree sums the numbers within the bounds' {
     --print("{"..table.concat(tbl, ", ").."}", l, r)
     l = l % #tbl
     r = r % #tbl
-    l, r = math.max(math.min(l, r), 1), math.max(l, r, 1)
+    l, r = math.max(math.min(l, r), 1), math.max(l, r)
     local sum = 0
     for i = l, r do sum = sum + tbl[i] end
     local fsum = fenwick(tbl):sum(l, r)
@@ -15,4 +15,3 @@ property 'fenwick tree sums the numbers within the bounds' {
     return sum == fsum
   end
 }
-

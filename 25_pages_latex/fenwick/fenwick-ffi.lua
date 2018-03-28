@@ -16,7 +16,7 @@ struct fenwick {
 local lib = ffi.load "./libfenwick.so"
 
 local function make_array(size)
-  return ffi.cast("ll *", ffi.C.malloc(size*ffi.sizeof"ll"))
+  return ffi.cast("ll *", ffi.C.malloc(size*ffi.sizeof("ll")))
 end
 
 local fenwick = ffi.metatype("struct fenwick", {
@@ -38,7 +38,7 @@ local fenwick = ffi.metatype("struct fenwick", {
       else
         error("Invalid initializer type", 2)
       end
-      ffi.gc(cdata, nil)
+      ffi.gc(cdata, ffi.free)
       return f
     end,
     __index = {
@@ -61,9 +61,6 @@ local fenwick = ffi.metatype("struct fenwick", {
     },
     __len = function(self)
       return self.len
-    end,
-    __gc = function(self)
-      ffi.C.free(self.a)
     end
   }
 )

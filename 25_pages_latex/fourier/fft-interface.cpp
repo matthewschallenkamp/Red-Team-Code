@@ -12,7 +12,7 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c);
 
 extern "C" {
   void fft_interface(complex<double> *data, unsigned long n) {
-    cout << "beginning native fourier" << endl;
+    // cout << "beginning native fourier" << endl;
     vcd input(n);
     for (size_t i = 0; i < n; ++i) {
       input[i] = data[i];
@@ -21,6 +21,6 @@ extern "C" {
     for (size_t i = 0; i < n; ++i) {
       data[i] = output[i];
     }
-    cout << "finished native fourier" << endl;
+    // cout << "finished native fourier" << endl;
   }
 }
