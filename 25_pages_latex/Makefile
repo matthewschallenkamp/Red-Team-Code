@@ -1,9 +1,11 @@
-all: pdf
+all: test pdf
+
+.PHONY: clean quickcheck busted pdf
 
 test: quickcheck busted
 
 clean:
-	rm *.so
+	rm main.pdf main.dvi main.aux main.log *.so .lqc 2>/dev/null || true
 
 quickcheck: clibs
 	lqc -c quickcheck
@@ -11,7 +13,9 @@ quickcheck: clibs
 busted: clibs
 	busted -p ".*" tests
 
-pdf: test
+pdf: main.pdf
+
+main.pdf: main.tex clibs
 	pdflatex -halt-on-error main.tex
 
 clibs: libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so
@@ -23,7 +27,7 @@ libfenwick.so: fenwick/fenwick.c
 	gcc -shared -fPIC -o libfenwick.so fenwick/fenwick.c
 
 libprimes.so: primes/primes-interface.cpp primes/primes.cpp
-	g++ -g -shared -fPIC --std=c++11 -o libprimes.so primes/primes.cpp primes/primes-interface.cpp
+	g++ -shared -fPIC --std=c++11 -o libprimes.so primes/primes.cpp primes/primes-interface.cpp
 
 libgraph.so: graph/graph-interface.cpp graph/djikstra.cpp graph/graph.hpp
 	g++ -shared -fPIC --std=c++11 -o libgraph.so graph/graph-interface.cpp graph/djikstra.cpp
