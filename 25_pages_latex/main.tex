@@ -1,0 +1,143 @@
+% a4 paper gives us over 2000 more square mm per page, for a total of
+% almost 5/6 of a page extra space
+\newif\ifuseletter
+
+\useletterfalse
+%\uselettertrue
+
+% if you need extra room to staple, adjust textheight and topmargin.
+
+\ifuseletter
+\documentclass[10pt,letterpaper,twocolumn]{article}
+\textwidth 8.25in
+\textheight 10.75in
+\evensidemargin -0.875in
+\oddsidemargin -0.875in
+\topmargin -0.875in
+\else
+\documentclass[10pt,a4paper,twocolumn]{article}
+\textwidth 200mm  % a4 paper is 210mm wide
+\textheight 287mm % a4 paper is 297mm high
+\evensidemargin -1in
+\oddsidemargin -1in
+\topmargin -1in
+\addtolength{\evensidemargin}{5mm}
+\addtolength{\oddsidemargin}{5mm}
+\addtolength{\topmargin}{5mm}
+\fi
+
+
+\headheight 10pt
+\headsep 4pt
+\addtolength{\textheight}{-14pt}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{South Dakota School of Mines and Technology}
+\rhead{Page \thepage}
+
+
+\newlength{\lstlinewidth}
+\setlength{\lstlinewidth}{0.5\textwidth}
+\addtolength{\lstlinewidth}{-6pt}
+
+% used to make sure that lstlisting aligns every character in a column
+\newlength{\normalbasewidth}
+\settowidth{\normalbasewidth}{\ttfamily m}
+\newlength{\smallbasewidth}
+\settowidth{\smallbasewidth}{\ttfamily\small m}
+\newlength{\footnotebasewidth}
+\settowidth{\footnotebasewidth}{\ttfamily\footnotesize m}
+\newlength{\scriptbasewidth}
+\settowidth{\scriptbasewidth}{\ttfamily\scriptsize m}
+
+%% \makeatletter
+%% \lstdefinestyle{mystyle}{
+%%   basewidth=\footnotebasewidth,
+%%   basicstyle=\ttfamily\lst@ifdisplaystyle\ttfamily\footnotesize\fi
+%% }
+%% \makeatother
+
+
+\makeatletter
+\lstdefinestyle{mystyle}{
+  basewidth=\scriptbasewidth,
+  basicstyle=\ttfamily\lst@ifdisplaystyle\ttfamily\scriptsize\fi
+}
+\makeatother
+
+\makeatletter
+\lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
+\@empty\z@\@empty
+\makeatother
+
+% choose the colors you like below.
+
+\lstset{language=C++,
+  linewidth=\lstlinewidth,
+  style=mystyle,           % set basic font and spacing
+  captionpos=t,            % sets the caption position to top
+  columns=fixed,
+  mathescape=false,
+  breaklines=true,         % sets automatic line breaking
+  breakatwhitespace=true,  % automatic breaks should only happen at whitespace
+  extendedchars=false,     % ASCII printing characters only
+  % escapechar={`},          % Anything between backtics is escaped
+  % escapeinside={{(*}{*)}},
+  % frame=single,          % adds a frame around the code
+  frame=tlrb,              % adds a frame around the code
+  xleftmargin=1pt,
+  xrightmargin=1pt,
+  % frameround=fttf,
+  % framesep=3pt,
+  % rulesep=3pt,
+  framerule=0.5pt,
+  % framexleftmargin=10pt,
+  % framexrightmargin=10pt,
+  % framextopmargin=10pt,
+  % framexbottommargin=10pt,
+  %%   %fillcolor=\color{SkyBlue},
+  %%   %rulesepcolor=\color{SkyBlue},
+  %keywordstyle=[1]\color{blue},      % keyword style
+  %keywordstyle=[2]\color{cyan},      % keyword style
+  %keywordstyle=[3]\color{orange},
+  keywordstyle=\color{blue},      % keyword style
+  stringstyle=\color{orange},     % string literal style
+  commentstyle=\color{green}\itshape,
+  morecomment=[l][\color{magenta}]{\#},
+  identifierstyle=\color{purple},
+  %numberbychapter=true,
+  numbers=none, % where to put the line-numbers; (none, left, right)
+  %numbersep=15pt,                 % how far the line-numbers are from the code
+  %numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  postbreak={\mbox{$\hookrightarrow\space$}},
+  showspaces=false, % show spaces everywhere adding particular underscores
+  showstringspaces=false,         % underline spaces within strings only
+  showtabs=false,  % show tabs within strings adding particular underscores
+  stepnumber=1,    % the step between printed line-numbers.
+  tabsize=8        % sets default tab character size to 8 spaces
+}
+
+
+
+\begin{document}
+
+\lstinputlisting[caption={Primes}]{primes/primes.cpp}
+\lstinputlisting[language=C,caption={Fenwick Tree}]{fenwick/fenwick.c}
+\lstinputlisting[caption={K-D Tree}]{kd/kd.cpp}
+%\lstinputlisting[language=C,caption={Counting}]{counting/counting.c}
+\lstinputlisting[caption={Fast Fourier Transform}]{fourier/fourier.cpp}
+\lstinputlisting[caption={KMP String Matching}]{kmp/kmp.hpp}
+\lstinputlisting[language=C++, firstline=9, caption={Hungarian Algorithm}]{hungarian/hungarian.cpp}
+\lstinputlisting[language=C++, firstline=14, caption={Geometry}]{geometry/geometry.cpp}
+
+
+
+
+\end{document}
