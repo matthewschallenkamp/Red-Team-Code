@@ -2,8 +2,8 @@
 % almost 5/6 of a page extra space
 \newif\ifuseletter
 
-\useletterfalse
-%\uselettertrue
+%\useletterfalse
+\uselettertrue
 
 % if you need extra room to staple, adjust textheight and topmargin.
 
@@ -128,16 +128,29 @@
 
 \begin{document}
 
-\lstinputlisting[caption={Primes}]{primes/primes.cpp}
-\lstinputlisting[language=C,caption={Fenwick Tree}]{fenwick/fenwick.c}
-\lstinputlisting[caption={K-D Tree}]{kd/kd.cpp}
+%\lstinputlisting[caption={Primes}]{primes/primes.cpp}
+%\lstinputlisting[language=C,caption={Fenwick Tree}]{fenwick/fenwick.c}
+%\lstinputlisting[caption={K-D Tree}]{kd/kd.cpp}
 %\lstinputlisting[language=C,caption={Counting}]{counting/counting.c}
-\lstinputlisting[caption={Fast Fourier Transform}]{fourier/fourier.cpp}
-\lstinputlisting[caption={KMP String Matching}]{kmp/kmp.hpp}
+\lstinputlisting[language=C++, firstline=24, lastline=108, caption={Fast Fourier Transform}]{fourier/fft.cpp}
+\lstinputlisting[language=C++, caption={KMP String Matching}]{kmp/kmp.hpp}
 \lstinputlisting[language=C++, firstline=9, caption={Hungarian Algorithm}]{hungarian/hungarian.cpp}
 \lstinputlisting[language=C++, firstline=14, caption={Geometry}]{geometry/geometry.cpp}
-
-
-
+\lstinputlisting[language=C++, firstline=7, caption={Bipartite Match}]{bipartiteMatcher/BipartiteMatcher.cpp}
+\lstinputlisting[language=C++, firstline=4, caption={Centroid Decomposition}]{centroidDecomposition/centroidDecomposition.cpp}
+\lstinputlisting[language=C++, firstline=22, lastline=38, caption={Floyd-Warshall}]{floydWarshall/FloydWarshall.cpp}
+\lstinputlisting[language=C++, firstline=138, lastline=208, caption={Ford-Fulkerson}]{fordFulkerson/ford_fulkerson.cpp}
+\lstinputlisting[language=C++, firstline=172, lastline=268, caption={Hopcroft-Karp}]{hopcroftKarp/hopcroft_karp.cpp}
+\lstinputlisting[language=C++, firstline=65, lastline=74, caption={Indexed Set}]{indexedSet/indexedSet.cpp}
+\lstinputlisting[language=C++, caption={Kosaraju SSC}]{kosarajuSSC/KosarajuSSC.cpp}
+\lstinputlisting[language=C++, caption={Segment Tree}]{segmentTree/segment.cpp}
+\lstinputlisting[language=C++, firstline=14, lastline=124, caption={Lazy Segment Tree}]{lazySegmentTree/segmentlazy.cpp}
+\lstinputlisting[language=C++, caption={Least Common Ancestor}]{leastCommonAncestor/LCA.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=14, caption={Longest Increasing Subsequence}]{longestIncreasingSubsequence/longestIncreasingSubsequence.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Modular N Choose K}]{modChooseNK/modChoose.cpp}
+\lstinputlisting[language=C++, firstline=5, lastline=9, caption={Modular Inverse}]{modInverse/modInverse.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=61, caption={Matrix Row Reduce}]{rowReduce/rowReduce.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Suffix Array}]{suffixArray/suffixArray.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=11, caption={Union Short Imp}]{unionShortImp/unionShortImp.cpp}
 
 \end{document}
