@@ -1,5 +1,7 @@
 *.pdf
 *.dvi
+*.toc
+*.lol
 *.aux
 *.log
 *.so

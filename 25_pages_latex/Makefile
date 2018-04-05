@@ -5,7 +5,7 @@ all: test pdf
 test: quickcheck busted
 
 clean:
-	rm main.pdf main.dvi main.aux main.log *.so .lqc 2>/dev/null || true
+	rm main.pdf main.dvi main.aux main.log main.lol main.toc *.so .lqc 2>/dev/null || true
 
 quickcheck: clibs
 	lqc -c quickcheck
@@ -15,7 +15,8 @@ busted: clibs
 
 pdf: main.pdf
 
-main.pdf: main.tex clibs
+# TODO add cpp files as dep
+main.pdf: main.tex */*.cpp
 	pdflatex -halt-on-error main.tex
 
 clibs: libhungarian.so libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so

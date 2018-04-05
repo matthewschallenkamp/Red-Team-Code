@@ -8,14 +8,14 @@
 % if you need extra room to staple, adjust textheight and topmargin.
 
 \ifuseletter
-\documentclass[10pt,letterpaper,twocolumn]{article}
-\textwidth 8.25in
-\textheight 10.75in
+\documentclass[12pt,letterpaper,twocolumn,landscape]{article}
+\textheight 8.25in
+\textwidth 10.75in
 \evensidemargin -0.875in
 \oddsidemargin -0.875in
 \topmargin -0.875in
 \else
-\documentclass[10pt,a4paper,twocolumn]{article}
+\documentclass[12pt,a4paper,twocolumn]{article}
 \textwidth 200mm  % a4 paper is 210mm wide
 \textheight 287mm % a4 paper is 297mm high
 \evensidemargin -1in
@@ -27,7 +27,7 @@
 \fi
 
 
-\headheight 10pt
+\headheight 15pt
 \headsep 4pt
 \addtolength{\textheight}{-14pt}
 
@@ -79,7 +79,8 @@
 
 % choose the colors you like below.
 
-\lstset{language=C++,
+\lstset{
+	language=C++,
   linewidth=\lstlinewidth,
   style=mystyle,           % set basic font and spacing
   captionpos=t,            % sets the caption position to top
@@ -92,6 +93,7 @@
   % escapeinside={{(*}{*)}},
   % frame=single,          % adds a frame around the code
   frame=tlrb,              % adds a frame around the code
+  rulecolor=\color{black},
   xleftmargin=1pt,
   xrightmargin=1pt,
   % frameround=fttf,
@@ -108,9 +110,9 @@
   %keywordstyle=[2]\color{cyan},      % keyword style
   %keywordstyle=[3]\color{orange},
   keywordstyle=\color{blue},      % keyword style
-  stringstyle=\color{orange},     % string literal style
-  commentstyle=\color{green}\itshape,
-  morecomment=[l][\color{magenta}]{\#},
+  stringstyle=\color{magenta},     % string literal style
+  commentstyle=\color{gray}\itshape,
+  morecomment=[l][\color{orange}]{\#},
   identifierstyle=\color{purple},
   %numberbychapter=true,
   numbers=none, % where to put the line-numbers; (none, left, right)
@@ -128,31 +130,81 @@
 
 \begin{document}
 
-%\lstinputlisting[caption={Primes}]{primes/primes.cpp}
-%\lstinputlisting[language=C,caption={Fenwick Tree}]{fenwick/fenwick.c}
-%\lstinputlisting[caption={K-D Tree}]{kd/kd.cpp}
-%\lstinputlisting[language=C,caption={Counting}]{counting/counting.c}
-\lstinputlisting[language=C++, firstline=24, lastline=108, caption={Fast Fourier Transform}]{fourier/fft.cpp}
-\lstinputlisting[language=C++, caption={KMP String Matching}]{kmp/kmp.hpp}
-\lstinputlisting[language=C++, firstline=9, caption={Hungarian Algorithm}]{hungarian/hungarian.cpp}
+\lstlistoflistings
+\newpage
+
+
+\lstinputlisting[caption={GEOMETRY}]{null}
+
+\lstinputlisting[language=C++, caption={K-D Tree}]{kd/kd.cpp}
 \lstinputlisting[language=C++, firstline=14, caption={Geometry}]{geometry/geometry.cpp}
+\lstinputlisting[language=C++, caption={Online Convex Hull}]{onlineConvexHull/onlineConvexHull.cpp}
+
+
+\lstinputlisting[caption={SETS AND UNIONFIND}]{null}
+
+\lstinputlisting[language=C++, firstline=65, lastline=74, caption={Indexed Set}]{indexedSet/indexedSet.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=11, caption={Union Short Imp}]{unionShortImp/unionShortImp.cpp}
+\lstinputlisting[language=C++, caption={Disjoint Find With Moves}]{disjointFindWithMove/disjointFindWithMove.cpp}
+
+
+\lstinputlisting[caption={GRAPHS}]{null}
+
+\lstinputlisting[language=C++, firstline=9, caption={Hungarian Algorithm}]{hungarian/hungarian.cpp}
 \lstinputlisting[language=C++, firstline=7, caption={Bipartite Match}]{bipartiteMatcher/BipartiteMatcher.cpp}
 \lstinputlisting[language=C++, firstline=4, caption={Centroid Decomposition}]{centroidDecomposition/centroidDecomposition.cpp}
 \lstinputlisting[language=C++, firstline=22, lastline=38, caption={Floyd-Warshall}]{floydWarshall/FloydWarshall.cpp}
 \lstinputlisting[language=C++, firstline=138, lastline=208, caption={Ford-Fulkerson}]{fordFulkerson/ford_fulkerson.cpp}
 \lstinputlisting[language=C++, firstline=172, lastline=268, caption={Hopcroft-Karp}]{hopcroftKarp/hopcroft_karp.cpp}
-\lstinputlisting[language=C++, firstline=65, lastline=74, caption={Indexed Set}]{indexedSet/indexedSet.cpp}
 \lstinputlisting[language=C++, caption={Kosaraju SSC}]{kosarajuSSC/KosarajuSSC.cpp}
+\lstinputlisting[language=C++, caption={Topological Sort}]{toposort/toposort.cpp}
+\lstinputlisting[language=C++, caption={MST}]{mst/mst.cpp}
+\lstinputlisting[language=C++, caption={Least Common Ancestor}]{leastCommonAncestor/LCA.cpp}
+
+
+\lstinputlisting[caption={STRINGS}]{null}
+
+\lstinputlisting[language=C++, caption={KMP String Matching}]{kmp/kmp.hpp}
+\lstinputlisting[language=C++, caption={Manaker's}]{manaker.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Suffix Array}]{suffixArray/suffixArray.cpp}
+\lstinputlisting[language=C++, caption={String Edit Distance}]{edit/editDistance.cpp}
+
+
+\lstinputlisting[caption={MATH}]{null}
+
+\lstinputlisting[language=C++, caption={Primes}]{primes/primes.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Modular N Choose K}]{modChooseNK/modChoose.cpp}
+\lstinputlisting[language=C++, firstline=5, caption={Modular Inverse}]{modInverse/modInverse.cpp}
+\lstinputlisting[language=C++, firstline=4, lastline=61, caption={Matrix Row Reduce}]{rowReduce/rowReduce.cpp}
+\lstinputlisting[caption={Summation Formulas}]{math/summations}
+\lstinputlisting[caption={Triangle numbers}]{math/triangle}
+\lstinputlisting[caption={Area Formulas}]{math/areas}
+\lstinputlisting[caption={Trig Formulas}]{math/trig}
+
+
+\lstinputlisting[caption={OTHER}]{null}
+
+\lstinputlisting[language=C++, firstline=24, lastline=108, caption={Fast Fourier Transform}]{fourier/fft.cpp}
 \lstinputlisting[language=C++, caption={Segment Tree}]{segmentTree/segment.cpp}
 \lstinputlisting[language=C++, firstline=14, lastline=124, caption={Lazy Segment Tree}]{lazySegmentTree/segmentlazy.cpp}
-\lstinputlisting[language=C++, caption={Least Common Ancestor}]{leastCommonAncestor/LCA.cpp}
 \lstinputlisting[language=C++, firstline=4, lastline=14, caption={Longest Increasing Subsequence}]{longestIncreasingSubsequence/longestIncreasingSubsequence.cpp}
-\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Modular N Choose K}]{modChooseNK/modChoose.cpp}
-\lstinputlisting[language=C++, firstline=5, lastline=9, caption={Modular Inverse}]{modInverse/modInverse.cpp}
-\lstinputlisting[language=C++, firstline=4, lastline=61, caption={Matrix Row Reduce}]{rowReduce/rowReduce.cpp}
-\lstinputlisting[language=C++, firstline=4, lastline=40, caption={Suffix Array}]{suffixArray/suffixArray.cpp}
-\lstinputlisting[language=C++, firstline=4, lastline=11, caption={Union Short Imp}]{unionShortImp/unionShortImp.cpp}
+\lstinputlisting[language=C++, caption={Largest range per min element}]{largestMinElementRange/largestMinElementRange.cpp}
+\lstinputlisting[language=C++, caption={mos Algorithm}]{mos/mosAlgorithm.cpp}
+\lstinputlisting[language=C++, caption={Sqrt Decomposition}]{sqrtDecomposition.cpp}
 
+
+\lstinputlisting[caption={PROBLEMS}]{null}
+
+\lstinputlisting[language=C++, caption={Invasion}]{invasion/solutionToInvasion.cpp}
+\lstinputlisting[language=C++, caption={Table Problem and Histogram Rectangles}]{table/table.cpp}
+\lstinputlisting[language=C++, caption={Outsourcing DFA}]{outsourcing.cpp}
+
+
+\lstinputlisting[caption={MISC}]{null}
+
+\lstinputlisting[language=C++, caption={Misc}]{misc.cpp}
 \lstinputlisting[language=python, caption={Python Random Testcases}]{pythonTestcases/testcases.py}
+\lstinputlisting[language=C++, caption={Time Testing 1}]{intdiv.cpp}
+\lstinputlisting[language=C++, caption={Time Testing 2}]{dblop.cpp}
 
 \end{document}

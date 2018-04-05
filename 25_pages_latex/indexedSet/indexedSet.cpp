@@ -6,7 +6,7 @@ using namespace std;
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 template<class TI>
-using indexed_set = tree<TI,null_type,less<TI>,rb_tree_tag,tree_order_statistics_node_update>;
+using indexed_set = tree<TI, null_type, less<TI>, rb_tree_tag, tree_order_statistics_node_update>;
 
 //http://codeforces.com/blog/entry/11080
 //http://codeforces.com/blog/entry/13279
@@ -66,7 +66,7 @@ int main() {
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 template<class TI>
-using indexed_set = tree<TI,null_type,less<TI>,rb_tree_tag,tree_order_statistics_node_update>;
+using indexed_set = tree<TI, null_type, less<TI>, rb_tree_tag, tree_order_statistics_node_update>;
 Iterator? indexed_set<T>::insert(T val);
 void indexed_set<T>::erase(T val);
 Iterator indexed_set<T>::find(T val)

@@ -8,6 +8,6 @@ vector<bool> *sieve(int n) {
   int m = sqrt(n);
   for (int i = 2; i < m; ++i)
     if (primes[i])
-      for (int k = 2*i; k < n; k += i) primes[k] = false;
+      for (int k = i*i; k < n; k += i) primes[k] = false;
   return res;
 }

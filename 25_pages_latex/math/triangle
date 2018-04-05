@@ -1,0 +1,10 @@
+Sequences to recognize:
+
+1 3 6 10 15 21 28 36
+Triangle numbers formed by (n)(n+1)/2 or n choose 2
+
+1 5 12 22 35 51 70 92
+Pentagonal numbers formed by 1/2(3*n^2-n)
+
+1 6 15 28 45 66 91 120
+Hexagonal numbers formed by 1/2(4*n^2-2n)

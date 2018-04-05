@@ -15,13 +15,26 @@ using namespace std;
 typedef unsigned long long ull;
 typedef long long ll;
 
+vector<int> getPath(int u, int v, vector<vector<int> > nextnode) {
+	vector<int> path; 
+	if(nextNode[u][v]==­-1)
+		return path; 
+	path.push_back(u); 
+	while (u != v) { 
+		u = nextNode[u][v]; 
+		path.push_back(u); 
+	}
+	return path;
+}
 
 int main() {
     int n, m;
     cin >> n >> m;
-    vector<vector<int> > adjMatrix, dist;
-    adjMatrix.resize(n, vector<int>(n));
-    dist.resize(n,vector<int>(n,1e9));//initialize distances to infinity
+    vector<vector<int> > adjMatrix, dist, nextnode;
+    int INF = -1;
+    adjMatrix.resize(n, vector<int>(n, INF));
+    nextnode = adjMatrix;
+    dist.resize(n,vector<int>(n,-1));//initialize distances to infinity
     int u, v, w;
     for(int i = 0; i < m; ++i) {
         cin >> u >> v >> w;//edge from node u to node v having weight w
@@ -29,10 +42,15 @@ int main() {
         dist[u][v] = w;
     }
     for(int i = 0; i < n; ++i) dist[i][i] = 0;
+    
     for(int k = 0; k < n; ++k) {
         for(int i = 0; i < n; ++i) {
             for(int j = 0; j < n; ++j) {
-                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                if(dist[i][k] != INF && dist[k][j] != INF 
+                	&& dist[i][k] + dist[k][j] < dist[i][j]) {
+	                nextnode[i][j] = k;
+	                dist[i][j] = dist[i][k] + dist[k][j];
+	              }
             }
         }
     }
