@@ -15,7 +15,6 @@ struct dp
 		val = u;
 	}
 };
-
 dp combine(dp l, dp r)
 {
 	return dp(l.val + r.val);

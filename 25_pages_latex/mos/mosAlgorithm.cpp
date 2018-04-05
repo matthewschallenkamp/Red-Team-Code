@@ -12,17 +12,12 @@ bool cmp(query x, query y) {
     if(x.l/block == y.l/block) return x.r < y.r;
     return x.l < y.l;
 }
-
 void add(int pos) {
 }
-
 void remove(int pos) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
     int q;
     cin >> q;
     vector<query> queries(q);
