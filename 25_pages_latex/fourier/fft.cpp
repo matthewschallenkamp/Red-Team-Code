@@ -6,8 +6,6 @@
 using namespace std;
 typedef long long ll;
 
-//maxDist is the longest distince we can hit
-//maxLength is the maximum length of a hole
 int maxDist = 0, maxLength = 0;
 
 void mult(vector<int> &a, vector<int> &b, vector<int> &c) {
@@ -105,36 +103,4 @@ void multFFT(vector<int> &a, vector<int> &b, vector<int> &c) {
         c.push_back(round(x.real()));
     }
     c.resize(a.size() + b.size() - 1);
-}
-
-int main() {
-    //solution to golf bot
-    //https://open.kattis.com/problems/golfbot
-    int n;
-    cin >> n;
-    vector<int> dist(n);
-    for(int &x : dist) {
-        cin >> x;
-        maxDist = max(maxDist, x);
-    }
-    int m;
-    cin >> m;
-    vector<int> holeLengths(m);
-    for(int &x : holeLengths) {
-        cin >> x;
-        maxLength = max(maxLength, x);
-    }
-    vector<int> a(maxLength+1,0),b(maxLength+1,0),c;
-    a[0] = 1;
-    for(int x : dist) a[x] = 1;
-    for(int x : holeLengths) b[x] = 1;
-    multFFT(a, a,c);
-    int holes = 0;
-    for(int i = 0; i <= maxLength; ++i) 
-        if(b[i] == 1 && c[i] >= 1) {
-            holes++;
-        }
-    
-    cout << holes << '\n';
-    return 0;
 }

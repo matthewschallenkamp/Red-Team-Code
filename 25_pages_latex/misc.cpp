@@ -1,10 +1,8 @@
-// MISC
-
 //gray code finder
 int g (int n) {
 	return n ^ (n >> 1);
 }
-//reverse
+
 int rev_g (int g) {
 	int n = 0;
 	for (; g; g>>=1)
@@ -18,19 +16,14 @@ for (int m=0; m<(1<<n); ++m)
 	  //mask calculation goes here
 
 //center of mass equations:
-
 //points is point average, ez
-
 //for polygon edges, take the center of each edge weighted by the edge length
-
 //for a triangle: take the vertexes and average them
-
 //for polygon area: pick some point. per edge, calculate the area of the triangle with that point and the sign of the area based
-// on the order of the points. sum.
-
+//   on the order of the points. sum.
 //for a polygon: pick a point, get the triangle for each edge and that point
-// average the triangles weighted by their area as a fraction of the polygon area
-// you do need to consider the sign of the triangles areas, so 
+//   average the triangles weighted by their area as a fraction of the polygon area
+//   you do need to consider the sign of the triangles areas, so 
 
 // Josephs algo:
 // taking list of n items and a step k, repeatedly step k and remove. Which element is left?
@@ -47,9 +40,7 @@ int joseph (int n, int k) {
 	return res;
 }
 
-//Farey sequence
-//grows n^2/3 with n
-/*
+//Farey sequence, grows n^2/3 with n
 def farey_function(n, descending=False):
     """Print the nth Farey sequence, either ascending or descending."""
     a, b, c, d = 0, 1, 1, n
@@ -60,4 +51,3 @@ def farey_function(n, descending=False):
         k = int((n + b) / d)
         a, b, c, d = c, d, (k*c-a), (k*d-b)
         print "%d/%d" % (a,b)
-*/

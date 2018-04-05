@@ -1,5 +1,4 @@
 Area:
-
 Square	side^2
 Rectangle	length * width
 Parallelogram	base * height
@@ -18,7 +17,6 @@ Cone (surface)	pi * radius * side
 Torus (surface)	pi^2 * (radius2^2 - radius1^2)	
 
 Volume:
-
 Cube	side3
 Rectangular Prism	side1 * side2 * side3
 Sphere	(4/3) * pi * radius^3

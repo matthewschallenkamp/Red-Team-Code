@@ -14,11 +14,9 @@ bool cmp(query x, query y) {
 }
 
 void add(int pos) {
-    
 }
 
 void remove(int pos) {
-    
 }
 
 int main() {
@@ -59,11 +57,3 @@ int main() {
     for(int i = 0; i < q; ++i) cout << answer[i] << '\n';
     return 0;
 }
-
-
-
-
-
-
-
-

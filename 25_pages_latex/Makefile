@@ -16,7 +16,7 @@ busted: clibs
 pdf: main.pdf
 
 # TODO add cpp files as dep
-main.pdf: main.tex */*.cpp
+main.pdf: main.tex */*.cpp *.cpp math/*
 	pdflatex -halt-on-error main.tex
 
 clibs: libhungarian.so libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so

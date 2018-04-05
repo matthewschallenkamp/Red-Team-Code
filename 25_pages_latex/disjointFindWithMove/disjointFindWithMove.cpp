@@ -77,32 +77,3 @@ public:
         return find(a) == find(b);
     }
 };
-
-int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-    ll n, k;
-    while(cin >> n >> k) {
-        DisjointSet ds(n);
-        while(k--) {
-            ll opp, a, b;
-            cin >> opp;
-            switch(opp) {
-            case 1://union
-                cin >> a >> b;
-                ds.merge(a, b);
-                break;
-            case 2://move
-                cin >> a >> b;
-                ds.move(a, b);
-                break;
-            case 3://print
-                cin >> a;
-                ds.print(a);
-                break;
-            }
-        }
-    }
-    return 0;
-}
-
-
-

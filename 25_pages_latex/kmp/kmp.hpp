@@ -1,4 +1,3 @@
-// #include <bits/stdc++.h>
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -8,7 +7,6 @@ struct KMP_Match {
     vector<int> T;      //prefix table for KMP algorithm
     string pat;         //pattern for current prefix table and for searching
 
-    //constructors: empty and with pattern, which builds prefix table
     KMP_Match() {};
     KMP_Match(string pattern) : pat(pattern) { this->buildTable(pat); };
 
@@ -26,8 +24,7 @@ struct KMP_Match {
         }
     }
 
-    //returns list of all match positions of pat in txt; if no matches, returns empty vector
-    //if all = false, returns vector with single element, position of first match
+    //returns list of all match positions of pat in txt; or one if all=false
     vector<int> find(string txt, bool all = true)
     {
         int m = 0, i = 0;   //start of current match in txt, position in pat

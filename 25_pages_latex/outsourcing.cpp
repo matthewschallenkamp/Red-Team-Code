@@ -8,9 +8,6 @@
 
 using namespace std;
 
-//Union type for doing union-find
-//during Hopcroft-Karp
-
 //Keeps track of if the union it is head of
 //has an end or non-end node in it
 //The hasEnd/hasNonend data is meaningless for non-head nodes

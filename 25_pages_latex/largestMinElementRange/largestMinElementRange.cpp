@@ -26,41 +26,5 @@ int main() {
         }
         positions.push(i);
     }
-    cout << "array:\n";
-    for(int i = 0; i < n; ++i) cout << arr[i] << ' ';
-    cout << "\nExclusive range for each index i such that arr[i] is the min element in that range:\n";
-    for(int i = 0; i < n; ++i) cout << "range for index " << i << ": (" << lefts[i] << ", " << rights[i] << ")\n";
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
