@@ -26,7 +26,6 @@ struct point
     point(long double x_=0, long double y_=0) : x(x_), y(y_){}
 
     // Only < operator is unusual behavior
-    // the rest can probably all be memorized
     bool operator <(const point& other) const
     {
         return (x < other.x ? true : (x == other.x && y < other.y));
@@ -37,47 +36,11 @@ struct point
         return abs(other.x - x) < EPSILON && abs(other.y - y) < EPSILON;
     }
 
-    bool operator != (const point& other) const
-    {
-        return abs(other.x - x) > EPSILON || abs(other.y - y) > EPSILON;
-    }
-
-    point operator *(const long double& d) const
-    {
-        return point(x*d, y*d);
-    }
-
-    point operator /(const long double& d) const
-    {
-        return point(x/d, y/d);
-    }
-
-    point operator +(const point& r) const
-    {
-        return point(x+r.x, y+r.y);
-    }
-
-    point operator -(const point& r) const
-    {
-        return point(x-r.x, y-r.y);
-    }
-
-    point operator -() const
-    {
-        return point(-x, -y);
-    }
+    //Add other operators as needed
 };
-
-ostream& operator << (ostream& out, const point& p)
-{
-    return out << "(" << p.x << ", " << p.y << ")";
-}
 
 //Container for line segment
-struct segment
-{
-    point p1, p2;
-};
+struct segment { point p1, p2; };
 
 //Dot product ab.bc
 double dot(const point& a, const point& b, const point& c)

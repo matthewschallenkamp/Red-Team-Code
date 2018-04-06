@@ -11,8 +11,7 @@ void dfs(int node, int dist, int &k) {
     minDist[node] = dist;
     for(auto to : adj[node]) {
         dfs(to.first, dist + to.second, k);
-    }
-}
+}   }
 
 //This is the last thing which should be added to the 25 pages, I'm only
 //considering adding it because the solution wasn't like anyting I've seen before
@@ -37,11 +36,8 @@ int main() {
             if(numSafe > 0) {
                 dfs(v-1, 0, k);
             }
-            cout << numSafe << '\n';
-        }
-        cout << '\n';
-    }
-    return 0;
-}
+        cout << numSafe << '\n';    }
+    cout << '\n';   }
+return 0;   }
 
 

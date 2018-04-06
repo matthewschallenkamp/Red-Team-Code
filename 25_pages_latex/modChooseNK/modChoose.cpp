@@ -6,13 +6,8 @@ const int mod = pow(10, 9)+7;
 ll power(ll a, ll b) {
     if (b <= 0) return 1;
     ll temp = power(a, b / 2) % mod;
-    if (b % 2 == 0) {
-        return (temp * temp) % mod;
-    }
-    else {
-        return (((a * temp) % mod) * temp) % mod;
-    }
-}
+    if (b % 2 == 0) { return (temp * temp) % mod;
+    } else { return (((a * temp) % mod) * temp) % mod;   }   }
 
 struct NchooseK {
     int range;
@@ -25,19 +20,13 @@ struct NchooseK {
     }
     void calcFacts() {
         fact[0] = 1;
-        for(ll i = 1; i <= range; ++i) {
-            fact[i] = (1LL*fact[i-1]*i)%mod;
-        }
+        for(ll i = 1; i <= range; ++i) { fact[i] = (1LL*fact[i-1]*i)%mod; }
         ifact[range] = power(fact[range], mod-2);
-        for(int i = range-1; i >= 0; --i) {
-            ifact[i] = (1LL*ifact[i+1]*(i+1))%mod;
-        }
-    }
+        for(int i = range-1; i >= 0; --i) { ifact[i] = (1LL*ifact[i+1]*(i+1))%mod; }   }
     int choose(int n, int k) {
         if(k < 0 || k > n || n < 0) return 0;
         return ((1LL*fact[n]*ifact[k])%mod * 1LL*ifact[n-k])%mod;
-    }
-};
+}   };
 
 int main() {ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     NchooseK nk;

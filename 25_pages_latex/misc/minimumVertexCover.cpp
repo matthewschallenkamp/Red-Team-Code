@@ -8,9 +8,7 @@ struct BipartiteMatcher {
     BipartiteMatcher(int n, int m) :
         G(n), L(n, -1), R(m, -1), Viz(n) {}
 
-    void AddEdge(int a, int b) {
-        G[a].push_back(b);
-    }
+    void AddEdge(int a, int b) { G[a].push_back(b); }
 
     bool Match(int node) {
         if(Viz[node]) 
@@ -22,11 +20,10 @@ struct BipartiteMatcher {
                 L[node] = vec;
                 R[vec] = node;
                 return true;
-            }
-        }
+        }   }
 
-        return false;
-    }
+        return false; }
+
     int Solve() {
         bool ok = true;
         while(ok) {
@@ -41,8 +38,7 @@ struct BipartiteMatcher {
         for(int i = 0; i < L.size(); ++i)
             ret += (L[i] != -1);
         return ret;
-    }
-};
+}   };
 
 void dfs(int node, vector<bool> &visitedA, vector<bool> &visitedB, BipartiteMatcher &bm) {
     visitedA[node] = true;
@@ -50,9 +46,7 @@ void dfs(int node, vector<bool> &visitedA, vector<bool> &visitedB, BipartiteMatc
         if(!visitedB[to] && bm.R[to] != -1) {
             visitedB[to] = true;
             dfs(bm.R[to], visitedA, visitedB, bm);
-        }
-    }
-}
+}   }   }
 
 const int Max = 1e5+3;
 vector<int> adj[Max];
@@ -64,9 +58,7 @@ void dfs(int node, bool type = true) {
     for(int to : adj[node]) {
         if(!visited[to]) {
             dfs(to, !type);
-        }
-    }
-}
+}   }   }
 
 vector<int> getMinimumVertexCover(vector<int> &A, vector<int> &B, BipartiteMatcher &bm) {
     bm.Solve();
@@ -76,8 +68,7 @@ vector<int> getMinimumVertexCover(vector<int> &A, vector<int> &B, BipartiteMatch
     for(int k = 0; k < A.size(); ++k) {
         if(bm.L[k] == -1) {
             dfs(k, visitedA, visitedB, bm);
-        }
-    }
+    }   }
     for(int i = 0; i < A.size(); ++i) {
         if(!visitedA[i]) minimumVertexCover.push_back(A[i]);
     }
@@ -110,16 +101,14 @@ int main() {
         } else {
             tableB[i] = B.size();
             B.push_back(i);
-        }
-    }
+    }   }
     BipartiteMatcher bm(A.size(), B.size());
     for(auto &e : edges) {
         if(parody[e.first]) {
             bm.AddEdge(tableA[e.first], tableB[e.second]);
         } else {
             bm.AddEdge(tableA[e.second], tableB[e.first]);
-        }
-    }
+    }   }
     vector<int> vertexCover = getMinimumVertexCover(A, B, bm);
     //now, every vertex not in the minimum vertex cover is in the maximum independent set
     cout << vertexCover.size() << '\n';

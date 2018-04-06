@@ -135,22 +135,18 @@ public:
 };
 
 /*
-class FlowNetwork
-{
+class FlowNetwork {
     struct pipe{int64_t cap, flow;};
 
-    struct node
-    {
+    struct node {
         unordered_map<int64_t, pipe> edges;
         uint64_t touched = 0;
-        int64_t parent, maxFlow;
-    };
+        int64_t parent, maxFlow; };
 
     unordered_map<int64_t, node> _nodes;
     uint64_t _lastTouch = 0;
 
-    bool _search(int64_t from, int64_t to)
-    {
+    bool _search(int64_t from, int64_t to) {
         _lastTouch++;
         //queue<int64_t> search;      // Swap lines
         stack<int64_t> search;    // for bfs/dfs
@@ -158,14 +154,12 @@ class FlowNetwork
         _nodes[from].touched = _lastTouch;
         _nodes[from].maxFlow = numeric_limits<int64_t>::max();
 
-        while(search.size())
-        {
+        while(search.size()) {
             //int64_t currInd = search.front(); // Swap lines
             int64_t currInd = search.top(); // for bfs/dfs
             search.pop();
             node& currNode = _nodes[currInd];
-            for(auto& edge : currNode.edges)
-            {
+            for(auto& edge : currNode.edges) {
                 pipe& p = edge.second;
                 node& child = _nodes[edge.first];
                 int64_t pipeFlow = p.cap - p.flow;
@@ -175,26 +169,20 @@ class FlowNetwork
                     child.maxFlow = std::min(currNode.maxFlow, pipeFlow);
                     if(edge.first == to) return true;
                     search.push(edge.first);
-                }
-            }
-        }
+        }   }   }
 
-        return false;
-    }
+        return false; }
 
 public:
     void addEdge(int64_t from, int64_t to, int64_t capacity = numeric_limits<int64_t>::max())
     {   _nodes[from].edges[to] = pipe{capacity, 0};     _nodes[to].edges[from] = pipe{0, 0};    }
 
     int64_t maxFlow(int64_t from, int64_t to, 
-                    int64_t upperLimit = numeric_limits<int64_t>::max())
-    {
+                    int64_t upperLimit = numeric_limits<int64_t>::max()) {
         int64_t flow = 0;
-        while(_search(from, to))
-        {
+        while(_search(from, to)) {
             int64_t maxAmnt = _nodes[to].maxFlow, curr = to;
-            while(curr != from)
-            {
+            while(curr != from) {
                 int64_t parent = _nodes[curr].parent;
                 pipe& p1 = _nodes[parent].edges[curr].flow += maxAmnt;
                 pipe& p2 = _nodes[curr].edges[parent].flow -= maxAmnt;
@@ -204,8 +192,7 @@ public:
             if(flow >= upperLimit){flow = upperLimit;break;}
         }
         return flow;
-    }
-};
+}   };
 */
 
 /////////////////////////////////////////////////////////////////////////////////

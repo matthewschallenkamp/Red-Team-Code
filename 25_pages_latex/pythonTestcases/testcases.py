@@ -30,7 +30,6 @@ print(matrix)
 for row in matrix:
     print( ' '.join( map(str, row) ) )
 
-
 # Random tree on N vertices:
 # Output is the list of edges. Vertices are numbered from 0 - (N-1).
 print( [ (randint(0, i), i+1) for i in range(N-1) ] )
@@ -41,11 +40,9 @@ alpha = 3  # affects the depth of the tree. Smaller value generates deeper trees
 # If alpha == 0, then the code will generate a path, i.e. the deepest possible tree.
 print( [ (randint(max(0, i-alpha), i), i+1) for i in range(N-1) ] )
 
-
 # Random graph on N vertices (may be unconnected):
 # Output is the list of edges. Vertices are numbered from 0 - (N-1).
 print( [ (i,j) for i in range(N) for j in range(i) if randint(0,1) ] )
-
 
 # Random connected graph on N vertices:
 # Simply union the edges of random tree and random graph:
