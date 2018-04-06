@@ -37,7 +37,16 @@ int findCentroid(int node) {
     return node;
 }
 
-
+void dfs1(int node, int par) {
+    removed[node] = true;
+    parent[node] = par;
+    for(int to : adj[node]) {
+        if(to != par && !removed[to]) {
+            dfs1(findCentroid(to), node);
+        }
+    }
+}
+//usage: dfs1(findCentroid(1), 0);
 
 
 
