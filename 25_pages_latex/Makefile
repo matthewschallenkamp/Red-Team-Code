@@ -13,10 +13,10 @@ quickcheck: clibs
 busted: clibs
 	busted -p ".*" tests
 
-pdf: main.pdf
+pdf: 25_pg-reference.pdf
 
 # TODO add cpp files as dep
-main.pdf: main.tex */*.cpp *.cpp math/*
+25_pg-reference.pdf: 25_pg-reference.tex */*.cpp math/*
 	pdflatex -halt-on-error 25_pg-reference.tex
 
 clibs: libhungarian.so libfenwick.so libprimes.so libgraph.so libfourier.so libkmp.so
